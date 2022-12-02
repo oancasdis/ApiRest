@@ -51,10 +51,19 @@ app.delete("/LborrarUno/:companyApiKey/:id", (req, res) => {
     res.end('borrarUno')
 });
 
-app.put("/LeditaUno/:valor/:companyApiKey", (req, res) => {
+app.put("/LeditaUno/:locationName/:locationCountry/:locationCity/:locationMeta/:companyApiKey/:id", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
-        db.run("UPDATE location SET locationName = ? WHERE companyApiKey = ?", [req.params.valor, req.params.companyApiKey]);
+        const locationEdit = req.params;
+        db.run("UPDATE location SET locationName = ?, locationCountry = ?, locationCity = ?, locationMeta = ? WHERE companyApiKey = ? AND id = ?", 
+        [
+            locationEdit.locationName,
+            locationEdit.locationCountry,
+            locationEdit.locationCity,
+            locationEdit.locationMeta,
+            locationEdit.companyApiKey,
+            locationEdit.id
+        ]);
     });
     res.end('EditaUno')
 });

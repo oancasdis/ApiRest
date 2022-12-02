@@ -51,7 +51,7 @@ app.delete("/SborrarUno/:sensorApiKey", (req, res) => {
     res.end('borrarUno')
 });
 
-app.put("/SeditaUno/:sensorName/:sensorCategory/:sensorMeta/:sensorApiKey/:adminId", (req, res) => {
+app.put("/SeditaUno/:sensorName/:sensorCategory/:sensorMeta/:sensorApiKey/:id", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
         const sensor = req.params;

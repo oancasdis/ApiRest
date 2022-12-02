@@ -48,11 +48,11 @@ app.delete("/DTborrarUno/:sensorApiKey", (req, res) => {
     res.end('borrarUno')
 });
 
-app.put("/DTeditaUno/:temperaturaK/:temperaturaF/:sensorApiKey/:sensorId", (req, res) => {
+app.put("/DTeditaUno/:temperaturaK/:temperaturaF/:sensorApiKey/:id", (req, res) => {
     // console.log(req.params.id)
     db.serialize(function() {
         const sensorEdit = req.params;
-        db.run("UPDATE location SET temperaturaK = ?, temperaturaF = ? WHERE sensorApiKey = ? AND sensorId = ?", 
+        db.run("UPDATE location SET temperaturaK = ?, temperaturaF = ? WHERE sensorApiKey = ? AND id = ?", 
         [
             sensorEdit.temperaturaK,
             sensorEdit.temperaturaF,
