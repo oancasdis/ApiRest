@@ -49,10 +49,18 @@ app.delete("/DLborrarUno/:sensorApiKey", (req, res) => {
     res.end('borrarUno')
 });
 
-app.put("/DLeditaUno/:valor/:sensorApiKey", (req, res) => {
+app.put("/DLeditaUno/:intensidadRojo/:intensidadVerde/:intensidadAzul/:sensorApiKey/:adminId", (req, res) => {
     // console.log(req.params.id)
     db.serialize(function() {
-        db.run("UPDATE location SET intensidadRojo = ? WHERE sensorApiKey = ?", [req.params.valor, req.params.sensorApiKey]);
+        const sensorEdit = req.params;
+        db.run("UPDATE location SET intensidadRojo = ?, intensidadVerde = ?, intensidadAzul = ?, WHERE sensorApiKey = ? AND adminId = ?", 
+        [
+            sensorEdit.intensidadRojo,
+            sensorEdit.intensidadVerde,
+            sensorEdit.intensidadAzul,
+            sensorEdit.sensorApiKey,
+            sensorEdit.adminId
+        ]);
     });
     res.end('EditaUno')
 });
