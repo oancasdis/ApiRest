@@ -6,8 +6,17 @@ const app = express();
 
 app.post("/Sagregar", (req, res) => {
     db.serialize(function() {
-        db.run("INSERT INTO sensor (locationId, sensorId, sensorName, sensorCategory, sensorMeta, sensorApiString) VALUES (1, 1, 'sensorName', 'sensorCategory', 'sensorMeta', 'sensorApiString')");
-        db.run("INSERT INTO sensor (locationId, sensorId, sensorName, sensorCategory, sensorMeta, sensorApiString) VALUES (2, 2, 'sensorName', 'sensorCategory', 'sensorMeta', 'sensorApiString')");
+        const sensor = req.params;
+        db.run("INSERT INTO sensor (locationId, sensorId, sensorName, sensorCategory, sensorMeta, sensorApiString)"
+        + "VALUES (?, ?, ?, ?, ?, ?)",
+        [
+            sensor.locationId, 
+            sensor.sensorId,
+            sensor.sensorName,
+            sensor.sensorCategory,
+            sensor.sensorMeta,
+            sensor.sensorApiString
+        ]);
     });
     res.end('agregar')
 });

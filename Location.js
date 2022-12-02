@@ -6,8 +6,16 @@ const app = express();
 
 app.post("/Lagregar", (req, res) => {
     db.serialize(function() {
-        db.run("INSERT INTO location (companyId, locationName, locationCountry, locationCity, locationMeta) VALUES (1, 'locationame', 'locationcountry', 'locationcity', 'locationmeta')");
-        db.run("INSERT INTO location (companyId, locationName, locationCountry, locationCity, locationMeta) VALUES (2, 'locationname1', 'locationcountry1', 'locationcity1', 'locationmeta1')");
+        const location = req.params;
+        db.run("INSERT INTO location (companyId, locationName, locationCountry, locationCity, locationMeta)"
+        + "VALUES (?, ?, ?, ?, ?)",
+        [
+            location.companyId,
+            location.locationName,
+            location.locationCountry,
+            location.locationCity,
+            location.locationMeta
+        ]);
     });
     res.end('agregar')
 });

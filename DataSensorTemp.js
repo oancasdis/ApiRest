@@ -6,8 +6,13 @@ const app = express();
 
 app.post("/DTagregar", (req, res) => {
     db.serialize(function() {
-        db.run("INSERT INTO sensorDataTemperatura (temperaturaK, temperaturaF, sensorId) VALUES (123, 123)");
-        db.run("INSERT INTO sensorDataTemperatura (temperaturaK, temperaturaF, sensorId) VALUES (1234, 1243)");
+        const temp = req.params;
+        db.run("INSERT INTO sensorDataTemperatura (temperaturaK, temperaturaF, sensorId)"
+        + "VALUES (?, ?)",
+        [
+            temp.temperaturaK,
+            temp.temperaturaF
+        ]);
     });
     res.end('agregar')
 });

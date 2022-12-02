@@ -6,8 +6,14 @@ const app = express();
 
 app.post("/DLagregar", (req, res) => {
     db.serialize(function() {
-        db.run("INSERT INTO sensorDataLuz (intensidadRojo, intensidadVerde, intensidadAzul, sensorId) VALUES (123, 123, 123)");
-        db.run("INSERT INTO sensorDataLuz (intensidadRojo, intensidadVerde, intensidadAzul, sensorId) VALUES (1234, 1243, 1423)");
+        const luz = req.params;
+        db.run("INSERT INTO sensorDataLuz (intensidadRojo, intensidadVerde, intensidadAzul, sensorId)"
+        + "VALUES (?, ?, ?)",
+        [
+            luz.intensidadRojo,
+            luz.intensidadVerde,
+            luz.intensidadAzul
+        ]);
     });
     res.end('agregar')
 });
