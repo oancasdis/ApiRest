@@ -25,7 +25,7 @@ app.get("/api/v1/sensor_data/:sensorApiKey/:sensorId", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
         db.each("SELECT id, temperaturaK, temperaturaF, sensorId FROM sensorDataTemperatura WHERE sensorApiKey = ? AND sensorId IN ?", [req.params.sensorApiKey, req.params.sensorId] ,function(err, row) {
-            console.log(row.id + ' ' + row.temperaturaK + ' ' + row.temperaturaF);
+            console.log(row.id + ' ' + row.temperaturaK + ' ' + row.temperaturaF + ' ' + row.sensorId);
         });
     });
     res.end('obtenerUno')
@@ -34,7 +34,7 @@ app.get("/api/v1/sensor_data/:sensorApiKey/:sensorId", (req, res) => {
 app.get("/api/v1/sensor_allData", (req, res) => {
     db.serialize(function() {
         db.each("SELECT id, temperaturaK, temperaturaF, sensorId FROM sensorDataTemperatura", function(err, row) {
-            console.log(row.id + ' ' + row.temperaturaK + ' ' + row.temperaturaF);
+            console.log(row.id + ' ' + row.temperaturaK + ' ' + row.temperaturaF + ' ' + row.sensorId);
         });
     });
     res.end('obtenerTodos')

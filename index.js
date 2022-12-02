@@ -6,6 +6,8 @@ const Sensor = require('./Sensor');
 const Tablas = require('./Tablas');
 const DataLuz = require('./DataSensorLuz');
 const DataTemp = require('./DataSensorTemp');
+const Admin = require('./Admin')
+const Company = require('./Company')
 
 const app = express();
 // const db = new sqlite3.Database('database.db');
@@ -13,6 +15,10 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.post('/Aagregar/:username/:password', Admin)
+
+app.post('/Cagregar/:id/:companyName/:companyApiKey', Company)
 
 app.post('/Lagregar/:companyApiKey/:locationName/:locationCountry/:locationCity/:locationMeta', Location)
 app.get('/LobtenerUno/:companyApiKey', Location)

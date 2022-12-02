@@ -8,9 +8,9 @@ app.post("/Lagregar/:companyApiKey/:locationName/:locationCountry/:locationCity/
     db.serialize(function() {
         const location = req.params;
         db.each("SELECT id, adminId FROM company WHERE companyApiKey = ?", [location.companyApiKey] ,function(err, row) {
-            //console.log(row.companyId + ' ' + row.locationName + ' ' + row.locationCountry + ' ' + row.locationCity + ' ' + row.locationMeta);
+            console.log(row.id + ' ' + row.adminId);
             db.run("INSERT INTO location (companyId, adminId, locationName, locationCountry, locationCity, locationMeta)"
-            + "VALUES (?, ?, ?, ?, ?)",
+            + "VALUES (?, ?, ?, ?, ?, ?)",
             [
                 row.id,
                 row.adminId,
@@ -27,8 +27,8 @@ app.post("/Lagregar/:companyApiKey/:locationName/:locationCountry/:locationCity/
 app.get("/LobtenerUno/:companyApiKey", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
-        db.each("SELECT companyId, adminId, locationName, locationCountry, locationCity, locationMeta FROM location WHERE companyApiKey = ?", [req.params.company] ,function(err, row) {
-            console.log(row.companyId + ' ' + row.locationName + ' ' + row.locationCountry + ' ' + row.locationCity + ' ' + row.locationMeta);
+        db.each("SELECT companyId, adminId, locationName, locationCountry, locationCity, locationMeta FROM location WHERE companyApiKey = ?", [req.params.companyApiKey] ,function(err, row) {
+            console.log(row.companyId + ' ' + row.adminId + ' ' + row.locationName + ' ' + row.locationCountry + ' ' + row.locationCity + ' ' + row.locationMeta);
         });
     });
     res.end('obtenerUno')
@@ -37,7 +37,7 @@ app.get("/LobtenerUno/:companyApiKey", (req, res) => {
 app.get("/LobtenerTodos", (req, res) => {
     db.serialize(function() {
         db.each("SELECT companyId, adminId, locationName, locationCountry, locationCity, locationMeta FROM location", function(err, row) {
-            console.log(row.companyId + ' ' + row.locationName + ' ' + row.locationCountry + ' ' + row.locationCity + ' ' + row.locationMeta);
+            console.log(row.companyId + ' ' + row.adminId + ' ' + row.locationName + ' ' + row.locationCountry + ' ' + row.locationCity + ' ' + row.locationMeta);
         });
     });
     res.end('obtenerTodos')

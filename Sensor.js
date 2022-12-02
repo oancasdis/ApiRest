@@ -37,7 +37,7 @@ app.get("/SobtenerUno/:sensorApiKey", (req, res) => {
 app.get("/SobtenerTodos", (req, res) => {
     db.serialize(function() {
         db.each("SELECT adminId, locationId, sensorName, sensorCategory, sensorMeta, sensorApiKey FROM sensor", function(err, row) {
-            console.log(row.locationId + ' ' + row.sensorId + ' ' + row.sensorName + ' ' + row.sensorCategory + ' ' + row.sensorMeta + ' ' + row.sensorApiKey);
+            console.log(row.adminId + ' ' + row.locationId + ' ' + row.sensorName + ' ' + row.sensorCategory + ' ' + row.sensorMeta + ' ' + row.sensorApiString);
         });
     });
     res.end('obtenerTodos')
