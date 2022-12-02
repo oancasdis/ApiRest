@@ -55,17 +55,16 @@ app.put("/SeditaUno/:sensorName/:sensorCategory/:sensorMeta/:sensorApiKey/:admin
     // console.log(req.params.company)
     db.serialize(function() {
         const sensor = req.params;
-        db.run("UPDATE sensor SET sensorName = ?, sensorCategory = ?, sensorMeta = ? WHERE sensorApiKey = ? AND adminId = ?",
+        db.run("UPDATE sensor SET sensorName = ?, sensorCategory = ?, sensorMeta = ? WHERE sensorApiKey = ? AND id = ?",
         [
             sensor.sensorName,
             sensor.sensorCategory,
             sensor.sensorMeta,
             sensor.sensorApiKey,
-            sensor.adminId,
+            sensor.id,
         ]);
     });
     res.end('EditaUno')
 });
-
 
 module.exports = app;

@@ -24,29 +24,29 @@ app.post("/Lagregar/:companyApiKey/:locationName/:locationCountry/:locationCity/
     res.end('agregar')
 });
 
-app.get("/LobtenerUno/:companyApiKey", (req, res) => {
+app.get("/LobtenerUno/:companyApiKey/:id", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
-        db.each("SELECT companyId, adminId, locationName, locationCountry, locationCity, locationMeta FROM location WHERE companyApiKey = ?", [req.params.companyApiKey] ,function(err, row) {
+        db.each("SELECT companyId, adminId, locationName, locationCountry, locationCity, locationMeta FROM location INNER JOIN company ON location.companyId = company.id WHERE companyApiKey = ? AND id = ?", [req.params.companyApiKey, req.params.id] ,function(err, row) {
             console.log(row.companyId + ' ' + row.adminId + ' ' + row.locationName + ' ' + row.locationCountry + ' ' + row.locationCity + ' ' + row.locationMeta);
         });
     });
     res.end('obtenerUno')
 });
 
-app.get("/LobtenerTodos", (req, res) => {
+app.get("/LobtenerTodos/:companyApiKey", (req, res) => {
     db.serialize(function() {
-        db.each("SELECT companyId, adminId, locationName, locationCountry, locationCity, locationMeta FROM location", function(err, row) {
+        db.each("SELECT companyId, adminId, locationName, locationCountry, locationCity, locationMeta FROM location INNER JOIN company ON location.companyId = company.id WHERE companyApiKey = ?", [req.params.companyApiKey] ,function(err, row) {
             console.log(row.companyId + ' ' + row.adminId + ' ' + row.locationName + ' ' + row.locationCountry + ' ' + row.locationCity + ' ' + row.locationMeta);
         });
     });
     res.end('obtenerTodos')
 });
 
-app.delete("/LborrarUno/:companyApiKey", (req, res) => {
+app.delete("/LborrarUno/:companyApiKey/:id", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
-        db.run("DELETE FROM location WHERE companyApiKey = ?", [req.params.companyApiKey]);
+        db.run("DELETE FROM location INNER JOIN company ON location.companyId = company.id WHERE companyApiKey = ? and id = ?", [req.params.companyApiKey, req.params.id]);
     });
     res.end('borrarUno')
 });

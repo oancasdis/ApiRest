@@ -21,8 +21,8 @@ app.post('/Aagregar/:username/:password', Admin)
 app.post('/Cagregar/:id/:companyName/:companyApiKey', Company)
 
 app.post('/Lagregar/:companyApiKey/:locationName/:locationCountry/:locationCity/:locationMeta', Location)
-app.get('/LobtenerUno/:companyApiKey', Location)
-app.get('/LobtenerTodos', Location)
+app.get('/LobtenerUno/:companyApiKey/:id', Location)
+app.get('/LobtenerTodos/:companyApiKey', Location)
 app.delete('/LborrarUno/:companyApiKey', Location)
 app.put('/LeditaUno/:valor/:companyApiKey', Location)
 
