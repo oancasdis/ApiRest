@@ -6,8 +6,8 @@ const app = express();
 
 app.post("/DLagregar", (req, res) => {
     db.serialize(function() {
-        db.run("INSERT INTO sensorDataLuz (intensidadRojo, intensidadVerde, intensidadAzul) VALUES (123, 123, 123)");
-        db.run("INSERT INTO sensorDataLuz (intensidadRojo, intensidadVerde, intensidadAzul) VALUES (1234, 1243, 1423)");
+        db.run("INSERT INTO sensorDataLuz (intensidadRojo, intensidadVerde, intensidadAzul, sensorId) VALUES (123, 123, 123)");
+        db.run("INSERT INTO sensorDataLuz (intensidadRojo, intensidadVerde, intensidadAzul, sensorId) VALUES (1234, 1243, 1423)");
     });
     res.end('agregar')
 });
@@ -15,7 +15,7 @@ app.post("/DLagregar", (req, res) => {
 app.get("/DLobtenerUno/:id", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
-        db.each("SELECT id, intensidadRojo, intensidadVerde, intensidadAzul FROM sensorDataLuz WHERE id = ?", [req.params.id] ,function(err, row) {
+        db.each("SELECT id, intensidadRojo, intensidadVerde, intensidadAzul, sensorId FROM sensorDataLuz WHERE id = ?", [req.params.id] ,function(err, row) {
             console.log(row.id + ' ' + row.intensidadRojo + ' ' + row.intensidadVerde + ' ' + row.intensidadAzul);
         });
     });
@@ -24,7 +24,7 @@ app.get("/DLobtenerUno/:id", (req, res) => {
 
 app.get("/DLobtenerTodos", (req, res) => {
     db.serialize(function() {
-        db.each("SELECT id, intensidadRojo, intensidadVerde, intensidadAzul FROM sensorDataLuz", function(err, row) {
+        db.each("SELECT id, intensidadRojo, intensidadVerde, intensidadAzul, sensorId FROM sensorDataLuz", function(err, row) {
             console.log(row.id + ' ' + row.intensidadRojo + ' ' + row.intensidadVerde + ' ' + row.intensidadAzul);
         });
     });

@@ -6,8 +6,8 @@ const app = express();
 
 app.post("/DTagregar", (req, res) => {
     db.serialize(function() {
-        db.run("INSERT INTO sensorDataTemperatura (temperaturaK, temperaturaF) VALUES (123, 123)");
-        db.run("INSERT INTO sensorDataTemperatura (temperaturaK, temperaturaF) VALUES (1234, 1243)");
+        db.run("INSERT INTO sensorDataTemperatura (temperaturaK, temperaturaF, sensorId) VALUES (123, 123)");
+        db.run("INSERT INTO sensorDataTemperatura (temperaturaK, temperaturaF, sensorId) VALUES (1234, 1243)");
     });
     res.end('agregar')
 });
@@ -15,7 +15,7 @@ app.post("/DTagregar", (req, res) => {
 app.get("/DTobtenerUno/:id", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
-        db.each("SELECT id, temperaturaK, temperaturaF FROM sensorDataTemperatura WHERE id = ?", [req.params.id] ,function(err, row) {
+        db.each("SELECT id, temperaturaK, temperaturaF, sensorId FROM sensorDataTemperatura WHERE id = ?", [req.params.id] ,function(err, row) {
             console.log(row.id + ' ' + row.temperaturaK + ' ' + row.temperaturaF);
         });
     });
@@ -24,7 +24,7 @@ app.get("/DTobtenerUno/:id", (req, res) => {
 
 app.get("/DTobtenerTodos", (req, res) => {
     db.serialize(function() {
-        db.each("SELECT id, temperaturaK, temperaturaF FROM sensorDataTemperatura", function(err, row) {
+        db.each("SELECT id, temperaturaK, temperaturaF, sensorId FROM sensorDataTemperatura", function(err, row) {
             console.log(row.id + ' ' + row.temperaturaK + ' ' + row.temperaturaF);
         });
     });
