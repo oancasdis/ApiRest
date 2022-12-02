@@ -24,19 +24,19 @@ app.post('/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:sensorMeta/:comp
 app.get('/SobtenerUno/:companyApiKey', Sensor)
 app.get('/SobtenerTodos', Sensor)
 app.delete('/SborrarUno/:companyApiKey', Sensor)
-app.put('/SeditaUno/:valor/:companyApiKey', Sensor)
+app.put('/SeditaUno/:sensorName/:sensorCategory/:sensorMeta/:sensorApiKey/:adminId', Sensor)
 
 app.post('/DLagregar/:sensorApiKey/:intensidadRojo/:intensidadVerde/:intensidadAzul', DataLuz)
 app.get('/DLobtenerUno/:sensorApiKey', DataLuz)
 app.get('/DLobtenerTodos', DataLuz)
 app.delete('/DLborrarUno/:sensorApiKey', DataLuz)
-app.put('/DLeditaUno/:valor/:sensorApiKey', DataLuz)
+app.put('/DLeditaUno/:intensidadRojo/:intensidadVerde/:intensidadAzul/:sensorApiKey/:adminId', DataLuz)
 
 app.post('/api/v1/sensor_data/:sensorApiKey/:temperaturaK/:temperaturaF', DataTemp)
 app.get('/api/v1/sensor_data/:sensorApiKey/:sensorId', DataTemp)
 app.get('/api/v1/sensor_allData', DataTemp)
 app.delete('/DTborrarUno/:sensorApiKey', DataTemp)
-app.put('/DTeditaUno/:valor/:sensorApiKey', DataTemp)
+app.put('/DTeditaUno/:temperaturaK/:temperaturaF/:sensorApiKey/:sensorId', DataTemp)
 
 app.post('/crearTablas', Tablas)
 
