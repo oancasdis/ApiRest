@@ -51,17 +51,17 @@ app.delete("/SborrarUno/:sensorApiKey", (req, res) => {
     res.end('borrarUno')
 });
 
-app.put("/SeditaUno/:sensorName/:sensorCategory/:sensorMeta/:sensorApiKey/:adminId", (req, res) => {
+app.put("/SeditaUno/:sensorName/:sensorCategory/:sensorMeta/:sensorApiKey/:id", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
         const sensor = req.params;
-        db.run("UPDATE sensor SET sensorName = ?, sensorCategory = ?, sensorMeta = ? WHERE sensorApiKey = ? AND adminId = ?",
+        db.run("UPDATE sensor SET sensorName = ?, sensorCategory = ?, sensorMeta = ? WHERE sensorApiKey = ? AND id = ?",
         [
             sensor.sensorName,
             sensor.sensorCategory,
             sensor.sensorMeta,
             sensor.sensorApiKey,
-            sensor.adminId,
+            sensor.id,
         ]);
     });
     res.end('EditaUno')
