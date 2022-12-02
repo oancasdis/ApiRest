@@ -7,11 +7,11 @@ const app = express();
 app.post("/Sagregar", (req, res) => {
     db.serialize(function() {
         const sensor = req.params;
-        db.run("INSERT INTO sensor (locationId, sensorId, sensorName, sensorCategory, sensorMeta, sensorApiString)"
+        db.run("INSERT INTO sensor (adminId, locationId, sensorName, sensorCategory, sensorMeta, sensorApiString)"
         + "VALUES (?, ?, ?, ?, ?, ?)",
         [
+            sensor.adminId,
             sensor.locationId, 
-            sensor.sensorId,
             sensor.sensorName,
             sensor.sensorCategory,
             sensor.sensorMeta,
@@ -24,7 +24,7 @@ app.post("/Sagregar", (req, res) => {
 app.get("/SobtenerUno/:location", (req, res) => {
     // console.log(req.params.location)
     db.serialize(function() {
-        db.each("SELECT locationId, sensorId, sensorName, sensorCategory, sensorMeta, sensorApiString FROM sensor WHERE locationId = ?", [req.params.location] ,function(err, row) {
+        db.each("SELECT adminId, locationId, sensorName, sensorCategory, sensorMeta, sensorApiString FROM sensor WHERE locationId = ?", [req.params.location] ,function(err, row) {
             console.log(row.locationId + ' ' + row.sensorId + ' ' + row.sensorName + ' ' + row.sensorCategory + ' ' + row.sensorMeta + ' ' + row.sensorApiString);
         });
     });
@@ -33,7 +33,7 @@ app.get("/SobtenerUno/:location", (req, res) => {
 
 app.get("/SobtenerTodos", (req, res) => {
     db.serialize(function() {
-        db.each("SELECT locationId, sensorId, sensorName, sensorCategory, sensorMeta, sensorApiString FROM sensor", function(err, row) {
+        db.each("SELECT adminId, locationId, sensorName, sensorCategory, sensorMeta, sensorApiString FROM sensor", function(err, row) {
             console.log(row.locationId + ' ' + row.sensorId + ' ' + row.sensorName + ' ' + row.sensorCategory + ' ' + row.sensorMeta + ' ' + row.sensorApiString);
         });
     });
