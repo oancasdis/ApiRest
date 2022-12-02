@@ -28,7 +28,7 @@ app.get("/SobtenerUno/:companyApiKey", (req, res) => {
     // console.log(req.params.location)
     db.serialize(function() {
         db.each("SELECT adminId, locationId, sensorName, sensorCategory, sensorMeta, sensorApiKey FROM sensor WHERE companyApiKey = ?", [req.params.companyApiKey] ,function(err, row) {
-            console.log(row.locationId + ' ' + row.sensorId + ' ' + row.sensorName + ' ' + row.sensorCategory + ' ' + row.sensorMeta + ' ' + row.sensorApiString);
+            console.log(row.adminId + ' ' + row.locationId + ' ' + row.sensorId + ' ' + row.sensorName + ' ' + row.sensorCategory + ' ' + row.sensorMeta + ' ' + row.sensorApiString);
         });
     });
     res.end('obtenerUno')
@@ -37,7 +37,7 @@ app.get("/SobtenerUno/:companyApiKey", (req, res) => {
 app.get("/SobtenerTodos", (req, res) => {
     db.serialize(function() {
         db.each("SELECT adminId, locationId, sensorName, sensorCategory, sensorMeta, sensorApiKey FROM sensor", function(err, row) {
-            console.log(row.locationId + ' ' + row.sensorId + ' ' + row.sensorName + ' ' + row.sensorCategory + ' ' + row.sensorMeta + ' ' + row.sensorApiString);
+            console.log(row.adminId + ' ' + row.locationId + ' ' + row.sensorId + ' ' + row.sensorName + ' ' + row.sensorCategory + ' ' + row.sensorMeta + ' ' + row.sensorApiString);
         });
     });
     res.end('obtenerTodos')
