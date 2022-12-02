@@ -4,24 +4,28 @@ const db = require('./db');
 
 const app = express();
 
-app.post("/DLagregar", (req, res) => {
+app.post("/DLagregar/:sensorApiKey/:intensidadRojo/:intensidadVerde/:intensidadAzul", (req, res) => {
     db.serialize(function() {
         const luz = req.params;
-        db.run("INSERT INTO sensorDataLuz (intensidadRojo, intensidadVerde, intensidadAzul, sensorId)"
-        + "VALUES (?, ?, ?)",
-        [
-            luz.intensidadRojo,
-            luz.intensidadVerde,
-            luz.intensidadAzul
-        ]);
+        db.each("SELECT id FROM sensor WHERE sensorApiKey = ?", [luz.sensorApiKey] ,function(err, row) {
+            // console.log(row.locationId + ' ' + row.sensorId + ' ' + row.sensorName + ' ' + row.sensorCategory + ' ' + row.sensorMeta + ' ' + row.sensorApiString);
+            db.run("INSERT INTO sensorDataLuz (intensidadRojo, intensidadVerde, intensidadAzul, sensorId)"
+            + "VALUES (?, ?, ?, ?)",
+            [
+                luz.intensidadRojo,
+                luz.intensidadVerde,
+                luz.intensidadAzul,
+                row.id
+            ]);
+        });
     });
     res.end('agregar')
 });
 
-app.get("/DLobtenerUno/:id", (req, res) => {
+app.get("/DLobtenerUno/:sensorApiKey", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
-        db.each("SELECT id, intensidadRojo, intensidadVerde, intensidadAzul, sensorId FROM sensorDataLuz WHERE id = ?", [req.params.id] ,function(err, row) {
+        db.each("SELECT id, intensidadRojo, intensidadVerde, intensidadAzul, sensorId FROM sensorDataLuz WHERE sensorApiKey = ?", [req.params.sensorApiKey] ,function(err, row) {
             console.log(row.id + ' ' + row.intensidadRojo + ' ' + row.intensidadVerde + ' ' + row.intensidadAzul);
         });
     });
@@ -37,18 +41,18 @@ app.get("/DLobtenerTodos", (req, res) => {
     res.end('obtenerTodos')
 });
 
-app.delete("/DLborrarUno/:id", (req, res) => {
+app.delete("/DLborrarUno/:sensorApiKey", (req, res) => {
     // console.log(req.params.id)
     db.serialize(function() {
-        db.run("DELETE FROM sensorDataLuz WHERE id = ?", [req.params.id]);
+        db.run("DELETE FROM sensorDataLuz WHERE sensorApiKey = ?", [req.params.sensorApiKey]);
     });
     res.end('borrarUno')
 });
 
-app.put("/DLeditaUno/:valor/:id", (req, res) => {
+app.put("/DLeditaUno/:valor/:sensorApiKey", (req, res) => {
     // console.log(req.params.id)
     db.serialize(function() {
-        db.run("UPDATE location SET intensidadRojo = ? WHERE id = ?", [req.params.valor, req.params.id]);
+        db.run("UPDATE location SET intensidadRojo = ? WHERE sensorApiKey = ?", [req.params.valor, req.params.sensorApiKey]);
     });
     res.end('EditaUno')
 });

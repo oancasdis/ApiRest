@@ -36,7 +36,7 @@ app.post("/crearTablas", (req, res) => {
         + "sensorName TEXT," 
         + "sensorCategory TEXT," 
         + "sensorMeta TEXT,"
-        + "sensorApiString TEXT," 
+        + "sensorApiKey TEXT," 
         + "foreign key(locationId) references location(id)," 
         + "foreign key(adminId) references admin(id))");
 
@@ -52,7 +52,7 @@ app.post("/crearTablas", (req, res) => {
         + "(id INTEGER PRIMARY KEY,"
         + "sensorId INTEGER,"
         + "temperaturaK INTEGER," 
-        + "temperaturaF INTEGER"
+        + "temperaturaF INTEGER,"
         + "foreign key(sensorId) references sensor(id))");
     });
     res.end('crearTablas')

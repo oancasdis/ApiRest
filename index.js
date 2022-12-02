@@ -14,29 +14,29 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post('/Lagregar', Location)
-app.get('/LobtenerUno/:company', Location)
+app.post('/Lagregar/:companyApiKey/:locationName/:locationCountry/:locationCity/:locationMeta', Location)
+app.get('/LobtenerUno/:companyApiKey', Location)
 app.get('/LobtenerTodos', Location)
-app.delete('/LborrarUno/:company', Location)
-app.put('/LeditaUno/:valor/:company', Location)
+app.delete('/LborrarUno/:companyApiKey', Location)
+app.put('/LeditaUno/:valor/:companyApiKey', Location)
 
-app.post('/Sagregar', Sensor)
-app.get('/SobtenerUno/:location', Sensor)
+app.post('/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:sensorMeta/:companyApiKey', Sensor)
+app.get('/SobtenerUno/:companyApiKey', Sensor)
 app.get('/SobtenerTodos', Sensor)
-app.delete('/SborrarUno/:location', Sensor)
-app.put('/SeditaUno/:valor/:location', Sensor)
+app.delete('/SborrarUno/:companyApiKey', Sensor)
+app.put('/SeditaUno/:valor/:companyApiKey', Sensor)
 
-app.post('/DLagregar', DataLuz)
-app.get('/DLobtenerUno/:id', DataLuz)
+app.post('/DLagregar/:sensorApiKey/:intensidadRojo/:intensidadVerde/:intensidadAzul', DataLuz)
+app.get('/DLobtenerUno/:sensorApiKey', DataLuz)
 app.get('/DLobtenerTodos', DataLuz)
-app.delete('/DLborrarUno/:id', DataLuz)
-app.put('/DLeditaUno/:valor/:id', DataLuz)
+app.delete('/DLborrarUno/:sensorApiKey', DataLuz)
+app.put('/DLeditaUno/:valor/:sensorApiKey', DataLuz)
 
-app.post('/DTagregar', DataTemp)
-app.get('/DTobtenerUno/:id', DataTemp)
-app.get('/DTobtenerTodos', DataTemp)
-app.delete('/DTborrarUno/:id', DataTemp)
-app.put('/DTeditaUno/:valor/:id', DataTemp)
+app.post('/api/v1/sensor_data/:sensorApiKey/:temperaturaK/:temperaturaF', DataTemp)
+app.get('/api/v1/sensor_data/:sensorApiKey/:sensorId', DataTemp)
+app.get('/api/v1/sensor_allData', DataTemp)
+app.delete('/DTborrarUno/:sensorApiKey', DataTemp)
+app.put('/DTeditaUno/:valor/:sensorApiKey', DataTemp)
 
 app.post('/crearTablas', Tablas)
 

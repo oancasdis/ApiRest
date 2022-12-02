@@ -4,27 +4,30 @@ const db = require('./db');
 
 const app = express();
 
-app.post("/Lagregar", (req, res) => {
+app.post("/Lagregar/:companyApiKey/:locationName/:locationCountry/:locationCity/:locationMeta", (req, res) => {
     db.serialize(function() {
         const location = req.params;
-        db.run("INSERT INTO location (companyId, adminId, locationName, locationCountry, locationCity, locationMeta)"
-        + "VALUES (?, ?, ?, ?, ?)",
-        [
-            location.companyId,
-            location.adminId,
-            location.locationName,
-            location.locationCountry,
-            location.locationCity,
-            location.locationMeta
-        ]);
+        db.each("SELECT id, adminId FROM company WHERE companyApiKey = ?", [location.companyApiKey] ,function(err, row) {
+            //console.log(row.companyId + ' ' + row.locationName + ' ' + row.locationCountry + ' ' + row.locationCity + ' ' + row.locationMeta);
+            db.run("INSERT INTO location (companyId, adminId, locationName, locationCountry, locationCity, locationMeta)"
+            + "VALUES (?, ?, ?, ?, ?)",
+            [
+                row.id,
+                row.adminId,
+                location.locationName,
+                location.locationCountry,
+                location.locationCity,
+                location.locationMeta
+            ]);
+        });
     });
     res.end('agregar')
 });
 
-app.get("/LobtenerUno/:company", (req, res) => {
+app.get("/LobtenerUno/:companyApiKey", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
-        db.each("SELECT companyId, adminId, locationName, locationCountry, locationCity, locationMeta FROM location WHERE companyId = ?", [req.params.company] ,function(err, row) {
+        db.each("SELECT companyId, adminId, locationName, locationCountry, locationCity, locationMeta FROM location WHERE companyApiKey = ?", [req.params.company] ,function(err, row) {
             console.log(row.companyId + ' ' + row.locationName + ' ' + row.locationCountry + ' ' + row.locationCity + ' ' + row.locationMeta);
         });
     });
@@ -40,18 +43,18 @@ app.get("/LobtenerTodos", (req, res) => {
     res.end('obtenerTodos')
 });
 
-app.delete("/LborrarUno/:company", (req, res) => {
+app.delete("/LborrarUno/:companyApiKey", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
-        db.run("DELETE FROM location WHERE companyId = ?", [req.params.company]);
+        db.run("DELETE FROM location WHERE companyApiKey = ?", [req.params.companyApiKey]);
     });
     res.end('borrarUno')
 });
 
-app.put("/LeditaUno/:valor/:company", (req, res) => {
+app.put("/LeditaUno/:valor/:companyApiKey", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
-        db.run("UPDATE location SET locationName = ? WHERE companyId = ?", [req.params.valor, req.params.company]);
+        db.run("UPDATE location SET locationName = ? WHERE companyApiKey = ?", [req.params.valor, req.params.companyApiKey]);
     });
     res.end('EditaUno')
 });
