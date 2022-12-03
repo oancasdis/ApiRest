@@ -46,6 +46,7 @@ app.post("/crearTablas", (req, res) => {
         + "intensidadRojo INTEGER,"
         + "intensidadVerde INTEGER," 
         + "intensidadAzul INTEGER,"
+        + "createAt INTEGER,"
         + "foreign key(sensorId) references sensor(id))");
 
         db.run("CREATE TABLE IF NOT EXISTS sensorDataTemperatura"
@@ -53,6 +54,7 @@ app.post("/crearTablas", (req, res) => {
         + "sensorId INTEGER,"
         + "temperaturaK INTEGER," 
         + "temperaturaF INTEGER,"
+        + "createAt INTEGER,"
         + "foreign key(sensorId) references sensor(id))");
     });
     res.end('crearTablas')
