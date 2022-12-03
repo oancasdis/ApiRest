@@ -35,7 +35,7 @@ app.delete('/api/v1/sensor/SborrarUno/:companyApiKey', Sensor)
 app.put('/api/v1/sensor/SeditaUno/:sensorName/:sensorCategory/:sensorMeta/:sensorApiKey/:id', Sensor)
 
 app.post('/api/v1/sensor_data/DLagregar', DataLuz)
-app.get('/api/v1/sensor_data/DLobtenerUno/:sensorApiKey/:id', DataLuz)
+app.get('/api/v1/sensor_data/DLobtenerUno/:id/:sensorApiKey', DataLuz)
 app.get('/api/v1/sensor_data/DLobtenerTodos/:sensorApiKey', DataLuz)
 app.delete('/api/v1/sensor_data/DLborrarUno/:sensorApiKey/:id', DataLuz)
 app.put('/api/v1/sensor_data/DLeditaUno/:intensidadRojo/:intensidadVerde/:intensidadAzul/:sensorApiKey/:id', DataLuz)
