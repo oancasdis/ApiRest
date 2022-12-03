@@ -55,7 +55,7 @@ app.put("/SeditaUno/:sensorName/:sensorCategory/:sensorMeta/:sensorApiKey/:id", 
     // console.log(req.params.company)
     db.serialize(function() {
         const sensor = req.params;
-        db.run("UPDATE sensor SET sensorName = ?, sensorCategory = ?, sensorMeta = ? WHERE sensorApiKey = ? AND id = ?",
+        db.run("UPDATE sensor SET sensorName = ?, sensorCategory = ?, sensorMeta = ? WHERE EXISTS (SELECT * FROM company WHERE companyApiKey = ? AND sensor.id = ? )",
         [
             sensor.sensorName,
             sensor.sensorCategory,
