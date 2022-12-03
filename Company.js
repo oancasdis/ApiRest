@@ -20,4 +20,14 @@ app.post("/Cagregar/:id/:companyName/:companyApiKey", (req, res) => {
     res.end('agregar')
 });
 
+app.get("/CobtenerTodos", (req, res) => {
+    // console.log(req.params.company)
+    db.serialize(function() {
+        db.each("SELECT id FROM company", function(err, row) {
+            console.log(row);
+        });
+    });
+    res.end('obtenerUno')
+});
+
 module.exports = app;

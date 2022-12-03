@@ -17,4 +17,14 @@ app.post("/Aagregar/:username/:password", (req, res) => {
     res.end('agregar')
 });
 
+app.get("/AobtenerTodos", (req, res) => {
+    // console.log(req.params.company)
+    db.serialize(function() {
+        db.each("SELECT id FROM admin", function(err, row) {
+            console.log(row);
+        });
+    });
+    res.end('obtenerUno')
+});
+
 module.exports = app;

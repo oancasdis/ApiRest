@@ -26,7 +26,7 @@ app.get("/DLobtenerUno/:sensorApiKey", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
         db.each("SELECT id, intensidadRojo, intensidadVerde, intensidadAzul, sensorId FROM sensorDataLuz WHERE sensorApiKey = ?", [req.params.sensorApiKey] ,function(err, row) {
-            console.log(row.id + ' ' + row.intensidadRojo + ' ' + row.intensidadVerde + ' ' + row.intensidadAzul + ' ' + row.sensorId);
+            console.log(row);
         });
     });
     res.end('obtenerUno')
@@ -35,7 +35,7 @@ app.get("/DLobtenerUno/:sensorApiKey", (req, res) => {
 app.get("/DLobtenerTodos", (req, res) => {
     db.serialize(function() {
         db.each("SELECT id, intensidadRojo, intensidadVerde, intensidadAzul, sensorId FROM sensorDataLuz", function(err, row) {
-            console.log(row.id + ' ' + row.intensidadRojo + ' ' + row.intensidadVerde + ' ' + row.intensidadAzul + ' ' + row.sensorId);
+            console.log(row);
         });
     });
     res.end('obtenerTodos')

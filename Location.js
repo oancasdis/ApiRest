@@ -27,28 +27,27 @@ app.post("/Lagregar/:companyApiKey/:locationName/:locationCountry/:locationCity/
 app.get("/LobtenerUno/:companyApiKey/:id", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
-        db.each("SELECT companyId, adminId, locationName, locationCountry, locationCity, locationMeta FROM location INNER JOIN company ON location.companyId = company.id WHERE companyApiKey = ? AND id = ?", [req.params.companyApiKey, req.params.id] ,function(err, row) {
-            console.log(row.companyId + ' ' + row.adminId + ' ' + row.locationName + ' ' + row.locationCountry + ' ' + row.locationCity + ' ' + row.locationMeta);
+        db.each("SELECT location.id, location.companyId, location.adminId, location.locationName, location.locationCountry, location.locationCity, location.locationMeta FROM location INNER JOIN company ON location.companyId = company.id WHERE company.companyApiKey = ? AND location.id = ?", [req.params.companyApiKey, req.params.id] ,function(err, row) {
+            console.log(row);
         });
     });
     res.end('obtenerUno')
 });
 
 app.get("/LobtenerTodos/:companyApiKey", (req, res) => {
-    console.log(req.params.companyApiKey);
+    //console.log(req.params.companyApiKey);
     db.serialize(function() {
-        db.each("SELECT companyId, adminId, locationName, locationCountry, locationCity, locationMeta FROM location INNER JOIN company ON companyId = id WHERE companyApiKey = ?", [req.params.companyApiKey],function(err, row) {
-            console.log(row.companyId + ' ' + row.adminId + ' ' + row.locationName + ' ' + row.locationCountry + ' ' + row.locationCity + ' ' + row.locationMeta);
-            // console.log(row);
+        db.each("SELECT location.id, location.companyId, location.adminId, location.locationName, location.locationCountry, location.locationCity, location.locationMeta FROM location INNER JOIN company ON location.companyId = company.id WHERE company.companyApiKey = ?", [req.params.companyApiKey], function(err, row) {
+            console.log(row);
         });
     });
     res.end('obtenerTodos')
 });
 
-app.delete("/LborrarUno/:companyApiKey/:id", (req, res) => {
+app.delete("/LborrarUno/:id", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
-        db.run("DELETE FROM location INNER JOIN company ON location.companyId = company.id WHERE companyApiKey = ? and id = ?", [req.params.companyApiKey, req.params.id]);
+        db.run("DELETE FROM location INNER JOIN company ON location.companyId = company.id WHERE location.id = ?", [req.params.id]);
     });
     res.end('borrarUno')
 });
@@ -57,7 +56,7 @@ app.put("/LeditaUno/:locationName/:locationCountry/:locationCity/:locationMeta/:
     // console.log(req.params.company)
     db.serialize(function() {
         const locationEdit = req.params;
-        db.run("UPDATE location SET locationName = ?, locationCountry = ?, locationCity = ?, locationMeta = ? WHERE companyApiKey = ? AND id = ?", 
+        db.run("UPDATE location JOIN company ON location.companyId = company.id SET locationName = ?, locationCountry = ?, locationCity = ?, locationMeta = ? WHERE company.companyApiKey = ? AND location.id = ?", 
         [
             locationEdit.locationName,
             locationEdit.locationCountry,

@@ -17,13 +17,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/Aagregar/:username/:password', Admin)
+app.get('/AobtenerTodos', Admin)
 
 app.post('/Cagregar/:id/:companyName/:companyApiKey', Company)
+app.get('/CobtenerTodos', Company)
 
 app.post('/Lagregar/:companyApiKey/:locationName/:locationCountry/:locationCity/:locationMeta', Location)
 app.get('/LobtenerUno/:companyApiKey/:id', Location)
 app.get('/LobtenerTodos/:companyApiKey', Location)
-app.delete('/LborrarUno/:companyApiKey', Location)
+app.delete('/LborrarUno/:id', Location)
 app.put('/LeditaUno/:locationName/:locationCountry/:locationCity/:locationMeta/:companyApiKey/:id', Location)
 
 app.post('/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:sensorMeta/:companyApiKey', Sensor)
