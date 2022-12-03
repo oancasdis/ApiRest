@@ -4,7 +4,7 @@ const db = require('./db');
 
 const app = express();
 
-app.post("/Cagregar/:id/:companyName/:companyApiKey", (req, res) => {
+app.post("/api/v1/company/Cagregar/:id/:companyName/:companyApiKey", (req, res) => {
     db.serialize(function() {
         db.each("SELECT id FROM admin WHERE id = ?", [req.params.id] ,function(err, row) {
             console.log(row.id);
@@ -20,7 +20,7 @@ app.post("/Cagregar/:id/:companyName/:companyApiKey", (req, res) => {
     res.end('agregar')
 });
 
-app.get("/CobtenerTodos", (req, res) => {
+app.get("/api/v1/company/CobtenerTodos", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
         db.each("SELECT id FROM company", function(err, row) {

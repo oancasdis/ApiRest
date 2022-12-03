@@ -4,7 +4,7 @@ const db = require('./db');
 
 const app = express();
 
-app.post("/Aagregar/:username/:password", (req, res) => {
+app.post("/api/v1/admin/Aagregar/:username/:password", (req, res) => {
     db.serialize(function() {
         const admin = req.params;
         db.run("INSERT INTO admin (username, password)"
@@ -17,7 +17,7 @@ app.post("/Aagregar/:username/:password", (req, res) => {
     res.end('agregar')
 });
 
-app.get("/AobtenerTodos", (req, res) => {
+app.get("/api/v1/admin/AobtenerTodos", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
         db.each("SELECT id FROM admin", function(err, row) {

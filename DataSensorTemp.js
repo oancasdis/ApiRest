@@ -40,7 +40,7 @@ app.get("/api/v1/sensor_allData", (req, res) => {
     res.end('obtenerTodos')
 });
 
-app.delete("/DTborrarUno/:sensorApiKey", (req, res) => {
+app.delete("/api/v1/sensor_data/DTborrarUno/:sensorApiKey", (req, res) => {
     // console.log(req.params.id)
     db.serialize(function() {
         db.run("DELETE FROM sensorDataTemperatura WHERE sensorApiKey = ?", [req.params.sensorApiKey]);
@@ -48,7 +48,7 @@ app.delete("/DTborrarUno/:sensorApiKey", (req, res) => {
     res.end('borrarUno')
 });
 
-app.put("/DTeditaUno/:temperaturaK/:temperaturaF/:sensorApiKey/:id", (req, res) => {
+app.put("/api/v1/sensor_data/DTeditaUno/:temperaturaK/:temperaturaF/:sensorApiKey/:id", (req, res) => {
     // console.log(req.params.id)
     db.serialize(function() {
         const sensorEdit = req.params;

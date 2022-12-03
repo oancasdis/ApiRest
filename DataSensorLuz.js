@@ -4,7 +4,7 @@ const db = require('./db');
 
 const app = express();
 
-app.post("/DLagregar/:sensorApiKey/:intensidadRojo/:intensidadVerde/:intensidadAzul", (req, res) => {
+app.post("/api/v1/sensor_data/DLagregar/:sensorApiKey/:intensidadRojo/:intensidadVerde/:intensidadAzul", (req, res) => {
     db.serialize(function() {
         const luz = req.params;
         db.each("SELECT id FROM sensor WHERE sensorApiKey = ?", [luz.sensorApiKey] ,function(err, row) {
@@ -22,7 +22,7 @@ app.post("/DLagregar/:sensorApiKey/:intensidadRojo/:intensidadVerde/:intensidadA
     res.end('agregar')
 });
 
-app.get("/DLobtenerUno/:sensorApiKey", (req, res) => {
+app.get("/api/v1/sensor_data/DLobtenerUno/:sensorApiKey", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
         db.each("SELECT id, intensidadRojo, intensidadVerde, intensidadAzul, sensorId FROM sensorDataLuz WHERE sensorApiKey = ?", [req.params.sensorApiKey] ,function(err, row) {
@@ -32,7 +32,7 @@ app.get("/DLobtenerUno/:sensorApiKey", (req, res) => {
     res.end('obtenerUno')
 });
 
-app.get("/DLobtenerTodos", (req, res) => {
+app.get("/api/v1/sensor_data/DLobtenerTodos", (req, res) => {
     db.serialize(function() {
         db.each("SELECT id, intensidadRojo, intensidadVerde, intensidadAzul, sensorId FROM sensorDataLuz", function(err, row) {
             console.log(row);
@@ -41,7 +41,7 @@ app.get("/DLobtenerTodos", (req, res) => {
     res.end('obtenerTodos')
 });
 
-app.delete("/DLborrarUno/:sensorApiKey", (req, res) => {
+app.delete("/api/v1/sensor_data/DLborrarUno/:sensorApiKey", (req, res) => {
     // console.log(req.params.id)
     db.serialize(function() {
         db.run("DELETE FROM sensorDataLuz WHERE sensorApiKey = ?", [req.params.sensorApiKey]);
@@ -49,7 +49,7 @@ app.delete("/DLborrarUno/:sensorApiKey", (req, res) => {
     res.end('borrarUno')
 });
 
-app.put("/DLeditaUno/:intensidadRojo/:intensidadVerde/:intensidadAzul/:sensorApiKey/:id", (req, res) => {
+app.put("/api/v1/sensor_data/DLeditaUno/:intensidadRojo/:intensidadVerde/:intensidadAzul/:sensorApiKey/:id", (req, res) => {
     // console.log(req.params.id)
     db.serialize(function() {
         const sensorEdit = req.params;

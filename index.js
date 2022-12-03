@@ -16,35 +16,35 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.post('/Aagregar/:username/:password', Admin)
-app.get('/AobtenerTodos', Admin)
+app.post('/api/v1/admin/Aagregar/:username/:password', Admin)
+app.get('/api/v1/admin/AobtenerTodos', Admin)
 
-app.post('/Cagregar/:id/:companyName/:companyApiKey', Company)
-app.get('/CobtenerTodos', Company)
+app.post('/api/v1/company/Cagregar/:id/:companyName/:companyApiKey', Company)
+app.get('/api/v1/company/CobtenerTodos', Company)
 
-app.post('/Lagregar/:companyApiKey/:locationName/:locationCountry/:locationCity/:locationMeta', Location)
-app.get('/LobtenerUno/:companyApiKey/:id', Location)
-app.get('/LobtenerTodos/:companyApiKey', Location)
-app.delete('/LborrarUno/:id', Location)
-app.put('/LeditaUno/:locationName/:locationCountry/:locationCity/:locationMeta/:companyApiKey/:id', Location)
+app.post('/api/v1/location/Lagregar/:companyApiKey/:locationName/:locationCountry/:locationCity/:locationMeta', Location)
+app.get('/api/v1/location/LobtenerUno/:companyApiKey/:id', Location)
+app.get('/api/v1/location/LobtenerTodos/:companyApiKey', Location)
+app.delete('/api/v1/location/LborrarUno/:id', Location)
+app.put('/api/v1/location/LeditaUno/:locationName/:locationCountry/:locationCity/:locationMeta/:companyApiKey/:id', Location)
 
-app.post('/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:sensorMeta/:companyApiKey', Sensor)
-app.get('/SobtenerUno/:companyApiKey', Sensor)
-app.get('/SobtenerTodos', Sensor)
-app.delete('/SborrarUno/:companyApiKey', Sensor)
-app.put('/SeditaUno/:sensorName/:sensorCategory/:sensorMeta/:sensorApiKey/:id', Sensor)
+app.post('/api/v1/sensor/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:sensorMeta/:companyApiKey', Sensor)
+app.get('/api/v1/sensor/SobtenerUno/:companyApiKey', Sensor)
+app.get('/api/v1/sensor/SobtenerTodos', Sensor)
+app.delete('/api/v1/sensor/SborrarUno/:companyApiKey', Sensor)
+app.put('/api/v1/sensor/SeditaUno/:sensorName/:sensorCategory/:sensorMeta/:sensorApiKey/:id', Sensor)
 
-app.post('/DLagregar/:sensorApiKey/:intensidadRojo/:intensidadVerde/:intensidadAzul', DataLuz)
-app.get('/DLobtenerUno/:sensorApiKey', DataLuz)
-app.get('/DLobtenerTodos', DataLuz)
-app.delete('/DLborrarUno/:sensorApiKey', DataLuz)
-app.put('/DLeditaUno/:intensidadRojo/:intensidadVerde/:intensidadAzul/:sensorApiKey/:id', DataLuz)
+app.post('/api/v1/sensor_data/DLagregar/:sensorApiKey/:intensidadRojo/:intensidadVerde/:intensidadAzul', DataLuz)
+app.get('/api/v1/sensor_data/DLobtenerUno/:sensorApiKey', DataLuz)
+app.get('/api/v1/sensor_data/DLobtenerTodos', DataLuz)
+app.delete('/api/v1/sensor_data/DLborrarUno/:sensorApiKey', DataLuz)
+app.put('/api/v1/sensor_data/DLeditaUno/:intensidadRojo/:intensidadVerde/:intensidadAzul/:sensorApiKey/:id', DataLuz)
 
 app.post('/api/v1/sensor_data/:sensorApiKey/:temperaturaK/:temperaturaF', DataTemp)
 app.get('/api/v1/sensor_data/:sensorApiKey/:sensorId', DataTemp)
 app.get('/api/v1/sensor_allData', DataTemp)
-app.delete('/DTborrarUno/:sensorApiKey', DataTemp)
-app.put('/DTeditaUno/:temperaturaK/:temperaturaF/:sensorApiKey/:id', DataTemp)
+app.delete('/api/v1/sensor_data/DTborrarUno/:sensorApiKey', DataTemp)
+app.put('/api/v1/sensor_data/DTeditaUno/:temperaturaK/:temperaturaF/:sensorApiKey/:id', DataTemp)
 
 app.post('/crearTablas', Tablas)
 
