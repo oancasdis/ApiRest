@@ -53,7 +53,7 @@ app.put("/DLeditaUno/:intensidadRojo/:intensidadVerde/:intensidadAzul/:sensorApi
     // console.log(req.params.id)
     db.serialize(function() {
         const sensorEdit = req.params;
-        db.run("UPDATE location SET intensidadRojo = ?, intensidadVerde = ?, intensidadAzul = ?, WHERE sensorApiKey = ? AND id = ?", 
+        db.run("UPDATE sensorDataLuz SET intensidadRojo = ?, intensidadVerde = ?, intensidadAzul = ?, WHERE EXISTS (SELECT * FROM sensor WHERE sensorApiKey = ? AND sensorDataLuz.id = ? )", 
         [
             sensorEdit.intensidadRojo,
             sensorEdit.intensidadVerde,

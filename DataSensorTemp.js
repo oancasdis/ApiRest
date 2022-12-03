@@ -52,7 +52,7 @@ app.put("/DTeditaUno/:temperaturaK/:temperaturaF/:sensorApiKey/:id", (req, res) 
     // console.log(req.params.id)
     db.serialize(function() {
         const sensorEdit = req.params;
-        db.run("UPDATE location SET temperaturaK = ?, temperaturaF = ? WHERE sensorApiKey = ? AND id = ?", 
+        db.run("UPDATE sensorDataTemperatura SET temperaturaK = ?, temperaturaF = ? WHERE EXISTS (SELECT * FROM sensor WHERE sensorApiKey = ? AND sensorDataTemperatura.id = ? )", 
         [
             sensorEdit.temperaturaK,
             sensorEdit.temperaturaF,

@@ -56,7 +56,7 @@ app.put("/LeditaUno/:locationName/:locationCountry/:locationCity/:locationMeta/:
     // console.log(req.params.company)
     db.serialize(function() {
         const locationEdit = req.params;
-        db.run("UPDATE location JOIN company ON location.companyId = company.id SET locationName = ?, locationCountry = ?, locationCity = ?, locationMeta = ? WHERE company.companyApiKey = ? AND location.id = ?", 
+        db.run("UPDATE location SET locationName = ?, locationCountry = ?, locationCity = ?, locationMeta = ? WHERE EXISTS (SELECT * FROM company WHERE location.companyId = id AND companyApiKey = ? AND location.id = ? )", 
         [
             locationEdit.locationName,
             locationEdit.locationCountry,
