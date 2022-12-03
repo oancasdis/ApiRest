@@ -23,26 +23,26 @@ app.post("/api/v1/sensor_data", (req, res) => {
     res.end('agregar')
 });
 
-app.get("/api/v1/sensor_data/:sensorApiKey/:sensorId", (req, res) => {
+app.get("/api/v1/sensor_data/:companyApiKey/:sensorApiKey/:id", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
-        db.each("SELECT sensorDataTemperatura.id, sensorDataTemperatura.temperaturaK, sensorDataTemperatura.temperaturaF, sensorDataTemperatura.sensorId FROM sensorDataTemperatura INNER JOIN sensor ON sensorDataTemperatura.sensorId = sensor.id WHERE sensor.sensorApiKey = ? AND sensorDataTemperatura.sensorId = ?", [req.params.sensorApiKey, req.params.sensorId] ,function(err, row) {
+        db.each("SELECT sensorDataTemperatura.id, sensorDataTemperatura.temperaturaK, sensorDataTemperatura.temperaturaF, sensorDataTemperatura.sensorId FROM sensorDataTemperatura INNER JOIN sensor ON sensor.id = sensorDataTemperatura.sensorId INNER JOIN location ON location.id = sensor.locationId INNER JOIN company ON company.id = location.companyId WHERE company.companyApiKey = ? AND sensor.sensorApiKey = ? AND sensorDataTemperatura.id = ?", [req.params.companyApiKey, req.params.sensorApiKey, req.params.id] ,function(err, row) {
             console.log(row);
         });
     });
     res.end('obtenerUno')
 });
 
-app.get("/api/v1/sensor_allData/:sensorApiKey", (req, res) => {
+app.get("/api/v1/sensor_allData/:companyApiKey/:sensorApiKey", (req, res) => {
     db.serialize(function() {
-        db.each("SELECT sensorDataTemperatura.id, sensorDataTemperatura.temperaturaK, sensorDataTemperatura.temperaturaF, sensorDataTemperatura.sensorId FROM sensorDataTemperatura INNER JOIN sensor ON sensorDataTemperatura.sensorId = sensor.id WHERE sensor.sensorApiKey = ?", [req.params.sensorApiKey], function(err, row) {
+        db.each("SELECT sensorDataTemperatura.id, sensorDataTemperatura.temperaturaK, sensorDataTemperatura.temperaturaF, sensorDataTemperatura.sensorId FROM sensorDataTemperatura INNER JOIN sensor ON sensor.id = sensorDataTemperatura.sensorId INNER JOIN location ON location.id = sensor.locationId INNER JOIN company ON company.id = location.companyId WHERE company.companyApiKey = ? AND sensor.sensorApiKey = ?", [req.params.companyApiKey, req.params.sensorApiKey], function(err, row) {
             console.log(row);
         });
     });
     res.end('obtenerTodos')
 });
 
-app.delete("/api/v1/sensor_data/DTborrarUno/:sensorApiKey", (req, res) => {
+app.delete("/api/v1/sensor_data/DTborrarUno/:sensorApiKey/:id", (req, res) => {
     // console.log(req.params.id)
     db.serialize(function() {
         db.run("DELETE FROM sensorDataTemperatura WHERE ROWID IN (SELECT a.ROWID FROM sensorDataTemperatura a INNER JOIN sensor b ON (a.sensorId = b.id) WHERE b.sensorApiKey = ? AND a.sensorId = ?)", [req.params.sensorApiKey, req.params.id]);

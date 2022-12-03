@@ -23,15 +23,10 @@ app.post("/api/v1/sensor_data/DLagregar", (req, res) => {
     res.end('agregar')
 });
 
-app.get("/api/v1/sensor_data/DLobtenerUno/:sensorApiKey/:id", (req, res) => {
-    // console.log(req.params.company)
+app.get("/api/v1/sensor_data/DLobtenerUno/:companyApiKey/:sensorApiKey", (req, res) => {
+    // console.log(req.params.sensorApiKey)
     db.serialize(function() {
-        db.each("SELECT sensorDataLuz.id, sensorDataLuz.intensidadRojo, sensorDataLuz.intensidadVerde, sensorDataLuz.intensidadAzul, sensorDataLuz.sensorId"
-        + "FROM sensorDataLuz"
-        + "WHERE EXISTS (SELECT * FROM sensor" 
-        + "WHERE EXIST (SELECT * FROM location"
-        + "WHERE EXIST (SELECT * FROM company WHERE id = location.companyId AND companyApiKey = ? AND sensor.locationId = location.id AND sensor.id = sensorDataLuz.sensorId AND sensor.sensorApiKey = ? AND sensorDataLuz.id = ?)))" 
-        [req.query.companyApiKey, req.params.sensorApiKey, req.params.id] ,function(err, row) {
+        db.each("SELECT sensorDataLuz.id, sensorDataLuz.intensidadRojo, sensorDataLuz.intensidadVerde, sensorDataLuz.intensidadAzul, sensorDataLuz.sensorId FROM sensorDataLuz INNER JOIN sensor ON sensor.id = sensorDataLuz.sensorId INNER JOIN location ON location.id = sensor.locationId INNER JOIN company ON company.id = location.companyId WHERE company.companyApiKey = ? AND sensor.sensorApiKey = ?", [req.params.companyApiKey, req.params.sensorApiKey],function(err, row) {
             console.log(row);
         });
     });
