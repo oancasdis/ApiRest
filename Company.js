@@ -4,7 +4,8 @@ const db = require('./db');
 
 const app = express();
 
-app.post("/api/v1/company/Cagregar/:id/:companyName/:companyApiKey", (req, res) => {
+app.post("/api/v1/company/Cagregar/:id/:companyName", (req, res) => {
+    const companyApiKey = Math.floor(Math.random() * 10000);
     db.serialize(function() {
         db.each("SELECT id FROM admin WHERE id = ?", [req.params.id] ,function(err, row) {
             console.log(row.id);
@@ -13,11 +14,11 @@ app.post("/api/v1/company/Cagregar/:id/:companyName/:companyApiKey", (req, res) 
             [
                 row.id,
                 req.params.companyName,
-                req.params.companyApiKey,
+                companyApiKey,
             ]);
         });
     });
-    res.end('agregar')
+    res.status(201).send('OK');
 });
 
 app.get("/api/v1/company/CobtenerTodos", (req, res) => {
@@ -27,7 +28,7 @@ app.get("/api/v1/company/CobtenerTodos", (req, res) => {
             console.log(row);
         });
     });
-    res.end('obtenerUno')
+    res.status(201).send('OK');
 });
 
 module.exports = app;

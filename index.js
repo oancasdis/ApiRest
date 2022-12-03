@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.post('/api/v1/admin/Aagregar/:username/:password', Admin)
 app.get('/api/v1/admin/AobtenerTodos', Admin)
 
-app.post('/api/v1/company/Cagregar/:id/:companyName/:companyApiKey', Company)
+app.post('/api/v1/company/Cagregar/:id/:companyName', Company)
 app.get('/api/v1/company/CobtenerTodos', Company)
 
 app.post('/api/v1/location/Lagregar/:companyApiKey/:locationName/:locationCountry/:locationCity/:locationMeta', Location)
@@ -28,7 +28,7 @@ app.get('/api/v1/location/LobtenerTodos/:companyApiKey', Location)
 app.delete('/api/v1/location/LborrarUno/:id', Location)
 app.put('/api/v1/location/LeditaUno/:locationName/:locationCountry/:locationCity/:locationMeta/:companyApiKey/:id', Location)
 
-app.post('/api/v1/sensor/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:sensorMeta/:sensorApiKey', Sensor)
+app.post('/api/v1/sensor/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:sensorMeta', Sensor)
 app.get('/api/v1/sensor/SobtenerUno/:companyApiKey', Sensor)
 app.get('/api/v1/sensor/SobtenerTodos', Sensor)
 app.delete('/api/v1/sensor/SborrarUno/:companyApiKey', Sensor)

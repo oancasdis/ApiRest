@@ -20,7 +20,7 @@ app.post("/api/v1/sensor_data/DLagregar", (req, res) => {
             });
         }
     });
-    res.end('agregar')
+    res.status(201).send('OK');
 });
 //[req.params.sensorApiKey, req.params.id, req.query.companyApiKey] ,
 app.get("/api/v1/sensor_data/DLobtenerUno/:id/:sensorApiKey", (req, res) => {
@@ -33,7 +33,7 @@ app.get("/api/v1/sensor_data/DLobtenerUno/:id/:sensorApiKey", (req, res) => {
             console.log('Consulta Hora:' + Date.now() );
         });
     });
-    res.end('obtenerUno')
+    res.status(201).send('OK');
 });
 
 app.get("/api/v1/sensor_data/DLobtenerTodos/:sensorApiKey", (req, res) => {
@@ -45,7 +45,7 @@ app.get("/api/v1/sensor_data/DLobtenerTodos/:sensorApiKey", (req, res) => {
             console.log('Consulta Hora:' + Date.now() );
         });
     });
-    res.end('obtenerTodos')
+    res.status(201).send('OK');
 });
 
 app.delete("/api/v1/sensor_data/DLborrarUno/:sensorApiKey", (req, res) => {
@@ -53,7 +53,7 @@ app.delete("/api/v1/sensor_data/DLborrarUno/:sensorApiKey", (req, res) => {
     db.serialize(function() {
         db.run("DELETE FROM sensorDataLuz WHERE ROWID IN (SELECT a.ROWID FROM sensorDataLuz a INNER JOIN sensor b ON (a.sensorId = b.id) WHERE b.sensorApiKey = ? AND a.sensorId = ?)", [req.params.sensorApiKey, req.params.id]);
     });
-    res.end('borrarUno')
+    res.status(201).send('OK');
 });
 
 app.put("/api/v1/sensor_data/DLeditaUno/:intensidadRojo/:intensidadVerde/:intensidadAzul/:sensorApiKey/:id", (req, res) => {
@@ -69,7 +69,7 @@ app.put("/api/v1/sensor_data/DLeditaUno/:intensidadRojo/:intensidadVerde/:intens
             sensorEdit.id
         ]);
     });
-    res.end('EditaUno')
+    res.status(201).send('OK');
 });
 
 module.exports = app;

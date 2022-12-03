@@ -21,7 +21,7 @@ app.post("/api/v1/location/Lagregar/:companyApiKey/:locationName/:locationCountr
             ]);
         });
     });
-    res.end('agregar')
+    res.status(201).send('OK');
 });
 
 app.get("/api/v1/location/LobtenerUno/:companyApiKey/:id", (req, res) => {
@@ -31,7 +31,7 @@ app.get("/api/v1/location/LobtenerUno/:companyApiKey/:id", (req, res) => {
             console.log(row);
         });
     });
-    res.end('obtenerUno')
+    res.status(201).send('OK');
 });
 
 app.get("/api/v1/location/LobtenerTodos/:companyApiKey", (req, res) => {
@@ -41,7 +41,7 @@ app.get("/api/v1/location/LobtenerTodos/:companyApiKey", (req, res) => {
             console.log(row);
         });
     });
-    res.end('obtenerTodos')
+    res.status(201).send('OK');
 });
 
 app.delete("/api/v1/location/LborrarUno/:id", (req, res) => {
@@ -49,7 +49,7 @@ app.delete("/api/v1/location/LborrarUno/:id", (req, res) => {
     db.serialize(function() {
         db.run("DELETE FROM location WHERE ROWID IN (SELECT lo.ROWID FROM location lo INNER JOIN company co ON (lo.companyId = co.id) WHERE co.companyApiKey = ? AND lo.id = ?)", [req.params.companyApiKey, req.params.id]);
     });
-    res.end('borrarUno')
+    res.status(201).send('OK');
 });
 
 app.put("/api/v1/location/LeditaUno/:locationName/:locationCountry/:locationCity/:locationMeta/:companyApiKey/:id", (req, res) => {
@@ -66,7 +66,7 @@ app.put("/api/v1/location/LeditaUno/:locationName/:locationCountry/:locationCity
             locationEdit.id
         ]);
     });
-    res.end('EditaUno')
+    res.status(201).send('OK');
 });
 
 module.exports = app;

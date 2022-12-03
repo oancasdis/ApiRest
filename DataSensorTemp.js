@@ -17,39 +17,40 @@ app.post("/api/v1/sensor_data", (req, res) => {
                     row.id
                 ]);
             });
-            console.log('agregar ' + i);
         }
     });
-    res.end('agregar')
+    res.status(201).send('OK');
 });
 
 app.get("/api/v1/sensor_data/:companyApiKey/:sensorApiKey/:id", (req, res) => {
-    // console.log(req.params.company)
-    db.serialize(function() {
-        db.each("SELECT sensorDataTemperatura.id, sensorDataTemperatura.temperaturaK, sensorDataTemperatura.temperaturaF, sensorDataTemperatura.sensorId, sensorDataTemperatura.createAt FROM sensorDataTemperatura INNER JOIN sensor ON sensor.id = sensorDataTemperatura.sensorId INNER JOIN location ON location.id = sensor.locationId INNER JOIN company ON company.id = location.companyId WHERE company.companyApiKey = ? AND sensor.sensorApiKey = ? AND sensorDataTemperatura.id = ?", [req.params.companyApiKey, req.params.sensorApiKey, req.params.id] ,function(err, row) {
-            console.log(row);
-            console.log('Consulta Hora:' + Date.now() );
+    for(let i = 0;i < Object.keys(req.params.id).length;i++){
+        db.serialize(function() {
+            db.each("SELECT sensorDataTemperatura.id, sensorDataTemperatura.temperaturaK, sensorDataTemperatura.temperaturaF, sensorDataTemperatura.sensorId, sensorDataTemperatura.createAt FROM sensorDataTemperatura INNER JOIN sensor ON sensor.id = sensorDataTemperatura.sensorId INNER JOIN location ON location.id = sensor.locationId INNER JOIN company ON company.id = location.companyId WHERE company.companyApiKey = ? AND sensor.sensorApiKey = ? AND sensorDataTemperatura.id = ?", [req.params.companyApiKey, req.params.sensorApiKey, req.params.id[i]] ,function(err, row) {
+                console.log(row);
+                console.log('Consulta Hora:' + Date.now() );
+            });
         });
-    });
-    res.end('obtenerUno')
+    }
+    res.status(201).send('OK');
 });
 
 app.get("/api/v1/sensor_allData/:companyApiKey/:sensorApiKey", (req, res) => {
+    // console.log(req.params.id)
     db.serialize(function() {
         db.each("SELECT sensorDataTemperatura.id, sensorDataTemperatura.temperaturaK, sensorDataTemperatura.temperaturaF, sensorDataTemperatura.sensorId, sensorDataTemperatura.createAt FROM sensorDataTemperatura INNER JOIN sensor ON sensor.id = sensorDataTemperatura.sensorId INNER JOIN location ON location.id = sensor.locationId INNER JOIN company ON company.id = location.companyId WHERE company.companyApiKey = ? AND sensor.sensorApiKey = ?", [req.params.companyApiKey, req.params.sensorApiKey], function(err, row) {
             console.log(row);
             console.log('Consulta Hora:' + Date.now() );
         });
     });
-    res.end('obtenerTodos')
+    res.status(201).send('OK');
 });
 
 app.delete("/api/v1/sensor_data/DTborrarUno/:sensorApiKey/:id", (req, res) => {
-    // console.log(req.params.id)
+    //console.log(req.params.id)
     db.serialize(function() {
         db.run("DELETE FROM sensorDataTemperatura WHERE ROWID IN (SELECT a.ROWID FROM sensorDataTemperatura a INNER JOIN sensor b ON (a.sensorId = b.id) WHERE b.sensorApiKey = ? AND a.sensorId = ?)", [req.params.sensorApiKey, req.params.id]);
     });
-    res.end('borrarUno')
+    res.status(201).send('OK');
 });
 
 app.put("/api/v1/sensor_data/DTeditaUno/:temperaturaK/:temperaturaF/:sensorApiKey/:id", (req, res) => {
@@ -64,7 +65,7 @@ app.put("/api/v1/sensor_data/DTeditaUno/:temperaturaK/:temperaturaF/:sensorApiKe
             sensorEdit.sensorId
         ]);
     });
-    res.end('EditaUno')
+    res.status(201).send('OK');
 });
 
 module.exports = app;
