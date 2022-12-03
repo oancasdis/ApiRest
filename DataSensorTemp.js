@@ -4,19 +4,21 @@ const db = require('./db');
 
 const app = express();
 
-app.post("/api/v1/sensor_data/:sensorApiKey/:temperaturaK/:temperaturaF", (req, res) => {
+app.post("/api/v1/sensor_data", (req, res) => {
     db.serialize(function() {
-        const temp = req.params;
-        db.each("SELECT id FROM sensor WHERE sensorApiKey = ?", [temp.sensorApiKey] ,function(err, row) {
-            // console.log(row.locationId + ' ' + row.sensorId + ' ' + row.sensorName + ' ' + row.sensorCategory + ' ' + row.sensorMeta + ' ' + row.sensorApiString);
-            db.run("INSERT INTO sensorDataTemperatura (temperaturaK, temperaturaF, sensorId)"
-            + "VALUES (?, ?, ?)",
-            [
-                temp.temperaturaK,
-                temp.temperaturaF,
-                row.id
-            ]);
-        });
+        for(let i = 0;i < Object.keys(req.body.json_data).length;i++){
+            db.each("SELECT id FROM sensor WHERE sensorApiKey = ?", [req.body.api_key] ,function(err, row) {
+                console.log(row);
+                db.run("INSERT INTO sensorDataTemperatura (temperaturaK, temperaturaF, sensorId)"
+                + "VALUES (?, ?, ?)",
+                [
+                    req.body.json_data[i].temperaturaK,
+                    req.body.json_data[i].temperaturaF,
+                    row.id
+                ]);
+            });
+            console.log('agregar ' + i);
+        }
     });
     res.end('agregar')
 });

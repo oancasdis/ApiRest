@@ -4,20 +4,21 @@ const db = require('./db');
 
 const app = express();
 
-app.post("/DLagregar/:sensorApiKey/:intensidadRojo/:intensidadVerde/:intensidadAzul", (req, res) => {
+app.post("/DLagregar", (req, res) => {
     db.serialize(function() {
-        const luz = req.params;
-        db.each("SELECT id FROM sensor WHERE sensorApiKey = ?", [luz.sensorApiKey] ,function(err, row) {
-            // console.log(row.locationId + ' ' + row.sensorId + ' ' + row.sensorName + ' ' + row.sensorCategory + ' ' + row.sensorMeta + ' ' + row.sensorApiString);
-            db.run("INSERT INTO sensorDataLuz (intensidadRojo, intensidadVerde, intensidadAzul, sensorId)"
-            + "VALUES (?, ?, ?, ?)",
-            [
-                luz.intensidadRojo,
-                luz.intensidadVerde,
-                luz.intensidadAzul,
-                row.id
-            ]);
-        });
+        for(let i = 0;i < Object.keys(req.body.json_data).length;i++){
+            db.each("SELECT id FROM sensor WHERE sensorApiKey = ?", [req.body.api_key] ,function(err, row) {
+                console.log(row);
+                db.run("INSERT INTO sensorDataLuz (intensidadRojo, intensidadVerde, intensidadAzul, sensorId)"
+                + "VALUES (?, ?, ?, ?)",
+                [
+                    req.body.json_data[i].intensidadRojo,
+                    req.body.json_data[i].intensidadVerde,
+                    req.body.json_data[i].intensidadAzul,
+                    row.id
+                ]);
+            });
+        }
     });
     res.end('agregar')
 });
