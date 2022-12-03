@@ -4,7 +4,7 @@ const db = require('./db');
 
 const app = express();
 
-app.post("/DLagregar", (req, res) => {
+app.post("/api/v1/sensor_data/DLagregar", (req, res) => {
     db.serialize(function() {
         for(let i = 0;i < Object.keys(req.body.json_data).length;i++){
             db.each("SELECT id FROM sensor WHERE sensorApiKey = ?", [req.body.api_key] ,function(err, row) {
@@ -23,7 +23,7 @@ app.post("/DLagregar", (req, res) => {
     res.end('agregar')
 });
 
-app.get("/DLobtenerUno/:sensorApiKey/:id", (req, res) => {
+app.get("/api/v1/sensor_data/DLobtenerUno/:sensorApiKey", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
         db.each("SELECT sensorDataLuz.id, sensorDataLuz.intensidadRojo, sensorDataLuz.intensidadVerde, sensorDataLuz.intensidadAzul, sensorDataLuz.sensorId FROM sensorDataLuz INNER JOIN sensor ON sensorDataLuz.sensorId = sensor.id WHERE sensor.sensorApiKey = ? AND sensorDataLuz.sensorId = ?", [req.params.sensorApiKey, req.params.id] ,function(err, row) {
@@ -33,7 +33,7 @@ app.get("/DLobtenerUno/:sensorApiKey/:id", (req, res) => {
     res.end('obtenerUno')
 });
 
-app.get("/DLobtenerTodos/:sensorApiKey", (req, res) => {
+app.get("/api/v1/sensor_data/DLobtenerTodos", (req, res) => {
     db.serialize(function() {
         db.each("SELECT sensorDataLuz.id, sensorDataLuz.intensidadRojo, sensorDataLuz.intensidadVerde, sensorDataLuz.intensidadAzul, sensorDataLuz.sensorId FROM sensorDataLuz INNER JOIN sensor ON sensorDataLuz.sensorId = sensor.id WHERE sensor.sensorApiKey = ?", [req.params.sensorApiKey] ,function(err, row) {
             console.log(row);
@@ -42,7 +42,7 @@ app.get("/DLobtenerTodos/:sensorApiKey", (req, res) => {
     res.end('obtenerTodos')
 });
 
-app.delete("/DLborrarUno/:sensorApiKey/:id", (req, res) => {
+app.delete("/api/v1/sensor_data/DLborrarUno/:sensorApiKey", (req, res) => {
     // console.log(req.params.id)
     db.serialize(function() {
         db.run("DELETE FROM sensorDataLuz WHERE ROWID IN (SELECT a.ROWID FROM sensorDataLuz a INNER JOIN sensor b ON (a.sensorId = b.id) WHERE b.sensorApiKey = ? AND a.sensorId = ?)", [req.params.sensorApiKey, req.params.id]);
@@ -50,7 +50,7 @@ app.delete("/DLborrarUno/:sensorApiKey/:id", (req, res) => {
     res.end('borrarUno')
 });
 
-app.put("/DLeditaUno/:intensidadRojo/:intensidadVerde/:intensidadAzul/:sensorApiKey/:id", (req, res) => {
+app.put("/api/v1/sensor_data/DLeditaUno/:intensidadRojo/:intensidadVerde/:intensidadAzul/:sensorApiKey/:id", (req, res) => {
     // console.log(req.params.id)
     db.serialize(function() {
         const sensorEdit = req.params;

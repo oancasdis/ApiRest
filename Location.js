@@ -4,7 +4,7 @@ const db = require('./db');
 
 const app = express();
 
-app.post("/Lagregar/:companyApiKey/:locationName/:locationCountry/:locationCity/:locationMeta", (req, res) => {
+app.post("/api/v1/location/Lagregar/:companyApiKey/:locationName/:locationCountry/:locationCity/:locationMeta", (req, res) => {
     db.serialize(function() {
         const location = req.params;
         db.each("SELECT id, adminId FROM company WHERE companyApiKey = ?", [location.companyApiKey] ,function(err, row) {
@@ -24,7 +24,7 @@ app.post("/Lagregar/:companyApiKey/:locationName/:locationCountry/:locationCity/
     res.end('agregar')
 });
 
-app.get("/LobtenerUno/:companyApiKey/:id", (req, res) => {
+app.get("/api/v1/location/LobtenerUno/:companyApiKey/:id", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
         db.each("SELECT location.id, location.companyId, location.adminId, location.locationName, location.locationCountry, location.locationCity, location.locationMeta FROM location INNER JOIN company ON location.companyId = company.id WHERE company.companyApiKey = ? AND location.id = ?", [req.params.companyApiKey, req.params.id] ,function(err, row) {
@@ -34,7 +34,7 @@ app.get("/LobtenerUno/:companyApiKey/:id", (req, res) => {
     res.end('obtenerUno')
 });
 
-app.get("/LobtenerTodos/:companyApiKey", (req, res) => {
+app.get("/api/v1/location/LobtenerTodos/:companyApiKey", (req, res) => {
     //console.log(req.params.companyApiKey);
     db.serialize(function() {
         db.each("SELECT location.id, location.companyId, location.adminId, location.locationName, location.locationCountry, location.locationCity, location.locationMeta FROM location INNER JOIN company ON location.companyId = company.id WHERE company.companyApiKey = ?", [req.params.companyApiKey], function(err, row) {
@@ -44,7 +44,7 @@ app.get("/LobtenerTodos/:companyApiKey", (req, res) => {
     res.end('obtenerTodos')
 });
 
-app.delete("/LborrarUno/:companyApiKey/:id", (req, res) => {
+app.delete("/api/v1/location/LborrarUno/:id", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
         db.run("DELETE FROM location WHERE ROWID IN (SELECT lo.ROWID FROM location lo INNER JOIN company co ON (lo.companyId = co.id) WHERE co.companyApiKey = ? AND lo.id = ?)", [req.params.companyApiKey, req.params.id]);
@@ -52,7 +52,7 @@ app.delete("/LborrarUno/:companyApiKey/:id", (req, res) => {
     res.end('borrarUno')
 });
 
-app.put("/LeditaUno/:locationName/:locationCountry/:locationCity/:locationMeta/:companyApiKey/:id", (req, res) => {
+app.put("/api/v1/location/LeditaUno/:locationName/:locationCountry/:locationCity/:locationMeta/:companyApiKey/:id", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
         const locationEdit = req.params;

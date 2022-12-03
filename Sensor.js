@@ -4,7 +4,7 @@ const db = require('./db');
 
 const app = express();
 
-app.post("/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:sensorMeta/:sensorApiKey", (req, res) => {
+app.post("/api/v1/sensor/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:sensorMeta/:sensorApiKey", (req, res) => {
     db.serialize(function() {
         db.each("SELECT location.adminId, location.id FROM location INNER JOIN company ON location.companyId = company.id WHERE company.companyApiKey = ?", [req.params.companyApiKey] ,function(err, row) {
             console.log(row);
@@ -23,7 +23,7 @@ app.post("/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:sensorMeta/:sens
     res.end('agregar')
 });
 
-app.get("/SobtenerUno/:sensorApiKey/:id", (req, res) => {
+app.get("/api/v1/sensor/SobtenerUno/:sensorApiKey", (req, res) => {
     // console.log(req.params.location)
     db.serialize(function() {
         db.each("SELECT id, adminId, locationId, sensorName, sensorCategory, sensorMeta, sensorApiKey FROM sensor WHERE sensorApiKey = ? AND id = ?", [req.params.sensorApiKey, req.params.id] ,function(err, row) {
@@ -33,7 +33,7 @@ app.get("/SobtenerUno/:sensorApiKey/:id", (req, res) => {
     res.end('obtenerUno')
 });
 
-app.get("/SobtenerTodos/:sensorApiKey", (req, res) => {
+app.get("/api/v1/sensor/SobtenerTodos", (req, res) => {
     db.serialize(function() {
         db.each("SELECT id, adminId, locationId, sensorName, sensorCategory, sensorMeta, sensorApiKey FROM sensor WHERE sensorApiKey = ?", [req.params.sensorApiKey] ,function(err, row) {
             console.log(row);
@@ -42,7 +42,7 @@ app.get("/SobtenerTodos/:sensorApiKey", (req, res) => {
     res.end('obtenerTodos')
 });
 
-app.delete("/SborrarUno/:sensorApiKey", (req, res) => {
+app.delete("/api/v1/sensor/SborrarUno/:sensorApiKey", (req, res) => {
     // console.log(req.params.location)
     db.serialize(function() {
         db.run("DELETE FROM sensor WHERE sensorApiKey = ?", [req.params.sensorApiKey]);
@@ -50,7 +50,7 @@ app.delete("/SborrarUno/:sensorApiKey", (req, res) => {
     res.end('borrarUno')
 });
 
-app.put("/SeditaUno/:sensorName/:sensorCategory/:sensorMeta/:sensorApiKey/:id", (req, res) => {
+app.put("/api/v1/sensor/SeditaUno/:sensorName/:sensorCategory/:sensorMeta/:sensorApiKey/:id", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
         const sensor = req.params;
