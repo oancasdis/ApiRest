@@ -44,10 +44,10 @@ app.get("/LobtenerTodos/:companyApiKey", (req, res) => {
     res.end('obtenerTodos')
 });
 
-app.delete("/LborrarUno/:id", (req, res) => {
+app.delete("/LborrarUno/:companyApiKey/:id", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
-        db.run("DELETE FROM location INNER JOIN company ON location.companyId = company.id WHERE location.id = ?", [req.params.id]);
+        db.run("DELETE FROM location WHERE ROWID IN (SELECT lo.ROWID FROM location lo INNER JOIN company co ON (lo.companyId = co.id) WHERE co.companyApiKey = ? AND lo.id = ?)", [req.params.companyApiKey, req.params.id]);
     });
     res.end('borrarUno')
 });

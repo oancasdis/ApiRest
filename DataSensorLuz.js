@@ -22,19 +22,19 @@ app.post("/DLagregar/:sensorApiKey/:intensidadRojo/:intensidadVerde/:intensidadA
     res.end('agregar')
 });
 
-app.get("/DLobtenerUno/:sensorApiKey", (req, res) => {
+app.get("/DLobtenerUno/:sensorApiKey/:id", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
-        db.each("SELECT id, intensidadRojo, intensidadVerde, intensidadAzul, sensorId FROM sensorDataLuz WHERE sensorApiKey = ?", [req.params.sensorApiKey] ,function(err, row) {
+        db.each("SELECT sensorDataLuz.id, sensorDataLuz.intensidadRojo, sensorDataLuz.intensidadVerde, sensorDataLuz.intensidadAzul, sensorDataLuz.sensorId FROM sensorDataLuz INNER JOIN sensor ON sensorDataLuz.sensorId = sensor.id WHERE sensor.sensorApiKey = ? AND sensorDataLuz.sensorId = ?", [req.params.sensorApiKey, req.params.id] ,function(err, row) {
             console.log(row);
         });
     });
     res.end('obtenerUno')
 });
 
-app.get("/DLobtenerTodos", (req, res) => {
+app.get("/DLobtenerTodos/:sensorApiKey", (req, res) => {
     db.serialize(function() {
-        db.each("SELECT id, intensidadRojo, intensidadVerde, intensidadAzul, sensorId FROM sensorDataLuz", function(err, row) {
+        db.each("SELECT sensorDataLuz.id, sensorDataLuz.intensidadRojo, sensorDataLuz.intensidadVerde, sensorDataLuz.intensidadAzul, sensorDataLuz.sensorId FROM sensorDataLuz INNER JOIN sensor ON sensorDataLuz.sensorId = sensor.id WHERE sensor.sensorApiKey = ?", [req.params.sensorApiKey] ,function(err, row) {
             console.log(row);
         });
     });
@@ -44,7 +44,7 @@ app.get("/DLobtenerTodos", (req, res) => {
 app.delete("/DLborrarUno/:sensorApiKey", (req, res) => {
     // console.log(req.params.id)
     db.serialize(function() {
-        db.run("DELETE FROM sensorDataLuz WHERE sensorApiKey = ?", [req.params.sensorApiKey]);
+        db.run("DELETE FROM sensorDataLuz WHERE ROWID IN (SELECT a.ROWID FROM sensorDataLuz a INNER JOIN sensor b ON (a.sensorId = b.id) WHERE b.sensorApiKey = ? AND a.sensorId = ?)", [req.params.sensorApiKey, req.params.id]);
     });
     res.end('borrarUno')
 });

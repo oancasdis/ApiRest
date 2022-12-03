@@ -25,7 +25,7 @@ app.get('/CobtenerTodos', Company)
 app.post('/Lagregar/:companyApiKey/:locationName/:locationCountry/:locationCity/:locationMeta', Location)
 app.get('/LobtenerUno/:companyApiKey/:id', Location)
 app.get('/LobtenerTodos/:companyApiKey', Location)
-app.delete('/LborrarUno/:id', Location)
+app.delete('/LborrarUno/:companyApiKey/:id', Location)
 app.put('/LeditaUno/:locationName/:locationCountry/:locationCity/:locationMeta/:companyApiKey/:id', Location)
 
 app.post('/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:sensorMeta/:companyApiKey', Sensor)
