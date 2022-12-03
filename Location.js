@@ -47,7 +47,7 @@ app.get("/api/v1/location/LobtenerTodos/:companyApiKey", (req, res) => {
 app.delete("/api/v1/location/LborrarUno/:id", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
-        db.run("DELETE FROM location INNER JOIN company ON location.companyId = company.id WHERE location.id = ?", [req.params.id]);
+        db.run("DELETE FROM location WHERE ROWID IN (SELECT lo.ROWID FROM location lo INNER JOIN company co ON (lo.companyId = co.id) WHERE co.companyApiKey = ? AND lo.id = ?)", [req.params.companyApiKey, req.params.id]);
     });
     res.end('borrarUno')
 });

@@ -27,7 +27,7 @@ app.post("/api/v1/sensor/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:se
 app.get("/api/v1/sensor/SobtenerUno/:sensorApiKey", (req, res) => {
     // console.log(req.params.location)
     db.serialize(function() {
-        db.each("SELECT adminId, locationId, sensorName, sensorCategory, sensorMeta, sensorApiKey FROM sensor WHERE sensorApiKey = ?", [req.params.sensorApiKey] ,function(err, row) {
+        db.each("SELECT id, adminId, locationId, sensorName, sensorCategory, sensorMeta, sensorApiKey FROM sensor WHERE sensorApiKey = ? AND id = ?", [req.params.sensorApiKey, req.params.id] ,function(err, row) {
             console.log(row);
         });
     });
@@ -36,7 +36,7 @@ app.get("/api/v1/sensor/SobtenerUno/:sensorApiKey", (req, res) => {
 
 app.get("/api/v1/sensor/SobtenerTodos", (req, res) => {
     db.serialize(function() {
-        db.each("SELECT adminId, locationId, sensorName, sensorCategory, sensorMeta, sensorApiKey FROM sensor", function(err, row) {
+        db.each("SELECT id, adminId, locationId, sensorName, sensorCategory, sensorMeta, sensorApiKey FROM sensor WHERE sensorApiKey = ?", [req.params.sensorApiKey] ,function(err, row) {
             console.log(row);
         });
     });

@@ -24,16 +24,16 @@ app.post("/api/v1/sensor_data/:sensorApiKey/:temperaturaK/:temperaturaF", (req, 
 app.get("/api/v1/sensor_data/:sensorApiKey/:sensorId", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
-        db.each("SELECT id, temperaturaK, temperaturaF, sensorId FROM sensorDataTemperatura WHERE sensorApiKey = ? AND sensorId IN ?", [req.params.sensorApiKey, req.params.sensorId] ,function(err, row) {
+        db.each("SELECT sensorDataTemperatura.id, sensorDataTemperatura.temperaturaK, sensorDataTemperatura.temperaturaF, sensorDataTemperatura.sensorId FROM sensorDataTemperatura INNER JOIN sensor ON sensorDataTemperatura.sensorId = sensor.id WHERE sensor.sensorApiKey = ? AND sensorDataTemperatura.sensorId = ?", [req.params.sensorApiKey, req.params.sensorId] ,function(err, row) {
             console.log(row);
         });
     });
     res.end('obtenerUno')
 });
 
-app.get("/api/v1/sensor_allData", (req, res) => {
+app.get("/api/v1/sensor_allData/:sensorApiKey", (req, res) => {
     db.serialize(function() {
-        db.each("SELECT id, temperaturaK, temperaturaF, sensorId FROM sensorDataTemperatura", function(err, row) {
+        db.each("SELECT sensorDataTemperatura.id, sensorDataTemperatura.temperaturaK, sensorDataTemperatura.temperaturaF, sensorDataTemperatura.sensorId FROM sensorDataTemperatura INNER JOIN sensor ON sensorDataTemperatura.sensorId = sensor.id WHERE sensor.sensorApiKey = ?", [req.params.sensorApiKey], function(err, row) {
             console.log(row);
         });
     });
@@ -43,7 +43,7 @@ app.get("/api/v1/sensor_allData", (req, res) => {
 app.delete("/api/v1/sensor_data/DTborrarUno/:sensorApiKey", (req, res) => {
     // console.log(req.params.id)
     db.serialize(function() {
-        db.run("DELETE FROM sensorDataTemperatura WHERE sensorApiKey = ?", [req.params.sensorApiKey]);
+        db.run("DELETE FROM sensorDataTemperatura WHERE ROWID IN (SELECT a.ROWID FROM sensorDataTemperatura a INNER JOIN sensor b ON (a.sensorId = b.id) WHERE b.sensorApiKey = ? AND a.sensorId = ?)", [req.params.sensorApiKey, req.params.id]);
     });
     res.end('borrarUno')
 });
