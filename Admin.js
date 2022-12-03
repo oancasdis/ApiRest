@@ -14,7 +14,7 @@ app.post("/api/v1/admin/Aagregar/:username/:password", (req, res) => {
             admin.password
         ]);
     });
-    res.end('agregar')
+    res.status(201).send('OK');
 });
 
 app.get("/api/v1/admin/AobtenerTodos", (req, res) => {
@@ -24,7 +24,7 @@ app.get("/api/v1/admin/AobtenerTodos", (req, res) => {
             console.log(row);
         });
     });
-    res.end('obtenerUno')
+    res.status(201).send('OK');
 });
 
 module.exports = app;

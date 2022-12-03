@@ -4,7 +4,8 @@ const db = require('./db');
 
 const app = express();
 
-app.post("/api/v1/sensor/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:sensorMeta/:sensorApiKey", (req, res) => {
+app.post("/api/v1/sensor/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:sensorMeta", (req, res) => {
+    const sensorApiKey = Math.floor(Math.random() * 10000);
     db.serialize(function() {
         const sensor = req.params;
         db.each("SELECT location.adminId, location.id FROM location INNER JOIN company ON location.companyId = company.id WHERE company.companyApiKey = ?", [sensor.companyApiKey] ,function(err, row) {
@@ -17,11 +18,11 @@ app.post("/api/v1/sensor/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:se
                 sensor.sensorName,
                 sensor.sensorCategory,
                 sensor.sensorMeta,
-                sensor.sensorApiKey
+                sensorApiKey
             ]);
         });
     });
-    res.end('agregar')
+    res.status(201).send('OK');
 });
 
 app.get("/api/v1/sensor/SobtenerUno/:sensorApiKey", (req, res) => {
@@ -31,7 +32,7 @@ app.get("/api/v1/sensor/SobtenerUno/:sensorApiKey", (req, res) => {
             console.log(row);
         });
     });
-    res.end('obtenerUno')
+    res.status(201).send('OK');
 });
 
 app.get("/api/v1/sensor/SobtenerTodos", (req, res) => {
@@ -40,7 +41,7 @@ app.get("/api/v1/sensor/SobtenerTodos", (req, res) => {
             console.log(row);
         });
     });
-    res.end('obtenerTodos')
+    res.status(201).send('OK');
 });
 
 app.delete("/api/v1/sensor/SborrarUno/:sensorApiKey", (req, res) => {
@@ -48,7 +49,7 @@ app.delete("/api/v1/sensor/SborrarUno/:sensorApiKey", (req, res) => {
     db.serialize(function() {
         db.run("DELETE FROM sensor WHERE sensorApiKey = ?", [req.params.sensorApiKey]);
     });
-    res.end('borrarUno')
+    res.status(201).send('OK');
 });
 
 app.put("/api/v1/sensor/SeditaUno/:sensorName/:sensorCategory/:sensorMeta/:sensorApiKey/:id", (req, res) => {
@@ -64,7 +65,7 @@ app.put("/api/v1/sensor/SeditaUno/:sensorName/:sensorCategory/:sensorMeta/:senso
             sensor.id,
         ]);
     });
-    res.end('EditaUno')
+    res.status(201).send('OK');
 });
 
 module.exports = app;
