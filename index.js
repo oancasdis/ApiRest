@@ -28,7 +28,7 @@ app.get('/api/v1/location/LobtenerTodos/:companyApiKey', Location)
 app.delete('/api/v1/location/LborrarUno/:id', Location)
 app.put('/api/v1/location/LeditaUno/:locationName/:locationCountry/:locationCity/:locationMeta/:companyApiKey/:id', Location)
 
-app.post('/api/v1/sensor/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:sensorMeta/', Sensor)
+app.post('/api/v1/sensor/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:sensorMeta/:sensorApiKey', Sensor)
 app.get('/api/v1/sensor/SobtenerUno/:companyApiKey', Sensor)
 app.get('/api/v1/sensor/SobtenerTodos', Sensor)
 app.delete('/api/v1/sensor/SborrarUno/:companyApiKey', Sensor)
@@ -42,7 +42,7 @@ app.put('/api/v1/sensor_data/DLeditaUno/:intensidadRojo/:intensidadVerde/:intens
 
 app.post('/api/v1/sensor_data', DataTemp)
 app.get('/api/v1/sensor_data/:sensorApiKey/:sensorId', DataTemp)
-app.get('/api/v1/sensor_allData', DataTemp)
+app.get('/api/v1/sensor_allData/:sensorApiKey', DataTemp)
 app.delete('/api/v1/sensor_data/DTborrarUno/:sensorApiKey', DataTemp)
 app.put('/api/v1/sensor_data/DTeditaUno/:temperaturaK/:temperaturaF/:sensorApiKey/:id', DataTemp)
 

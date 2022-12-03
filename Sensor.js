@@ -4,7 +4,7 @@ const db = require('./db');
 
 const app = express();
 
-app.post("/api/v1/sensor/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:sensorMeta/", (req, res) => {
+app.post("/api/v1/sensor/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:sensorMeta/:sensorApiKey", (req, res) => {
     db.serialize(function() {
         const sensor = req.params;
         db.each("SELECT location.adminId, location.id FROM location INNER JOIN company ON location.companyId = company.id WHERE company.companyApiKey = ?", [sensor.companyApiKey] ,function(err, row) {
