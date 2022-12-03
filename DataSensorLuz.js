@@ -22,19 +22,26 @@ app.post("/api/v1/sensor_data/DLagregar/:sensorApiKey/:intensidadRojo/:intensida
     res.end('agregar')
 });
 
-app.get("/api/v1/sensor_data/DLobtenerUno/:sensorApiKey", (req, res) => {
+app.get("/api/v1/sensor_data/DLobtenerUno/:sensorApiKey/:id", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
-        db.each("SELECT sensorDataLuz.id, sensorDataLuz.intensidadRojo, sensorDataLuz.intensidadVerde, sensorDataLuz.intensidadAzul, sensorDataLuz.sensorId FROM sensorDataLuz INNER JOIN sensor ON sensorDataLuz.sensorId = sensor.id WHERE sensor.sensorApiKey = ? AND sensorDataLuz.sensorId = ?", [req.params.sensorApiKey, req.params.id] ,function(err, row) {
+        db.each("SELECT sensorDataLuz.id, sensorDataLuz.intensidadRojo, sensorDataLuz.intensidadVerde, sensorDataLuz.intensidadAzul, sensorDataLuz.sensorId"
+        + "FROM sensorDataLuz"
+        + "WHERE EXISTS (SELECT * FROM sensor" 
+        + "WHERE EXIST (SELECT * FROM location"
+        + "WHERE EXIST (SELECT * FROM company WHERE id = location.companyId AND companyApiKey = ? AND sensor.locationId = location.id AND sensor.id = sensorDataLuz.sensorId AND sensor.sensorApiKey = ? AND sensorDataLuz.id = ?)))" 
+        [req.query.companyApiKey, req.params.sensorApiKey, req.params.id] ,function(err, row) {
             console.log(row);
         });
     });
     res.end('obtenerUno')
 });
 
-app.get("/api/v1/sensor_data/DLobtenerTodos", (req, res) => {
+app.get("/api/v1/sensor_data/DLobtenerTodos/:sensorApiKey", (req, res) => {
     db.serialize(function() {
-        db.each("SELECT sensorDataLuz.id, sensorDataLuz.intensidadRojo, sensorDataLuz.intensidadVerde, sensorDataLuz.intensidadAzul, sensorDataLuz.sensorId FROM sensorDataLuz INNER JOIN sensor ON sensorDataLuz.sensorId = sensor.id WHERE sensor.sensorApiKey = ?", [req.params.sensorApiKey] ,function(err, row) {
+        db.each("SELECT sensorDataLuz.id, sensorDataLuz.intensidadRojo, sensorDataLuz.intensidadVerde, sensorDataLuz.intensidadAzul, sensorDataLuz.sensorId" 
+        + "FROM sensorDataLuz INNER JOIN sensor ON sensorDataLuz.sensorId = sensor.id" 
+        + "WHERE sensor.sensorApiKey = ?", [req.params.sensorApiKey] ,function(err, row) {
             console.log(row);
         });
     });
