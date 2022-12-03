@@ -6,17 +6,17 @@ const app = express();
 
 app.post("/api/v1/sensor/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:sensorMeta/", (req, res) => {
     db.serialize(function() {
-        const sensor = req.params;
-        db.each("SELECT locationId, adminId FROM location INNER JOIN company ON location.companyId = company.id WHERE companyApiKey = ?", [sensor.companyApiKey] ,function(err, row) {
-            //console.log(row.companyId + ' ' + row.locationName + ' ' + row.locationCountry + ' ' + row.locationCity + ' ' + row.locationMeta);
+        db.each("SELECT location.adminId, location.id FROM location INNER JOIN company ON location.companyId = company.id WHERE company.companyApiKey = ?", [req.params.companyApiKey] ,function(err, row) {
+            console.log(row);
             db.run("INSERT INTO sensor (adminId, locationId, sensorName, sensorCategory, sensorMeta, sensorApiKey)"
             + "VALUES (?, ?, ?, ?, ?, ?)",
             [
                 row.adminId,
-                row.locationId, 
-                sensor.sensorName,
-                sensor.sensorCategory,
-                sensor.sensorMeta
+                row.id, 
+                req.params.sensorName,
+                req.params.sensorCategory,
+                req.params.sensorMeta,
+                req.params.sensorApiKey
             ]);
         });
     });

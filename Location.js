@@ -8,7 +8,7 @@ app.post("/api/v1/location/Lagregar/:companyApiKey/:locationName/:locationCountr
     db.serialize(function() {
         const location = req.params;
         db.each("SELECT id, adminId FROM company WHERE companyApiKey = ?", [location.companyApiKey] ,function(err, row) {
-            console.log(row.id + ' ' + row.adminId);
+            console.log(row);
             db.run("INSERT INTO location (companyId, adminId, locationName, locationCountry, locationCity, locationMeta)"
             + "VALUES (?, ?, ?, ?, ?, ?)",
             [
