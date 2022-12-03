@@ -20,7 +20,7 @@ app.post("/Aagregar/:username/:password", (req, res) => {
 app.get("/AobtenerTodos", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
-        db.each("SELECT id FROM admin", function(err, row) {
+        db.each("SELECT * FROM admin", function(err, row) {
             console.log(row);
         });
     });

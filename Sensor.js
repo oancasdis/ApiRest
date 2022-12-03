@@ -34,7 +34,7 @@ app.get("/SobtenerUno/:sensorApiKey/:id", (req, res) => {
     res.end('obtenerUno')
 });
 
-app.get("/SobtenerTodos", (req, res) => {
+app.get("/SobtenerTodos/:sensorApiKey", (req, res) => {
     db.serialize(function() {
         db.each("SELECT id, adminId, locationId, sensorName, sensorCategory, sensorMeta, sensorApiKey FROM sensor WHERE sensorApiKey = ?", [req.params.sensorApiKey] ,function(err, row) {
             console.log(row);

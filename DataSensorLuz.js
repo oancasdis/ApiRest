@@ -41,7 +41,7 @@ app.get("/DLobtenerTodos/:sensorApiKey", (req, res) => {
     res.end('obtenerTodos')
 });
 
-app.delete("/DLborrarUno/:sensorApiKey", (req, res) => {
+app.delete("/DLborrarUno/:sensorApiKey/:id", (req, res) => {
     // console.log(req.params.id)
     db.serialize(function() {
         db.run("DELETE FROM sensorDataLuz WHERE ROWID IN (SELECT a.ROWID FROM sensorDataLuz a INNER JOIN sensor b ON (a.sensorId = b.id) WHERE b.sensorApiKey = ? AND a.sensorId = ?)", [req.params.sensorApiKey, req.params.id]);

@@ -23,7 +23,7 @@ app.post("/Cagregar/:id/:companyName/:companyApiKey", (req, res) => {
 app.get("/CobtenerTodos", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
-        db.each("SELECT id FROM company", function(err, row) {
+        db.each("SELECT * FROM company", function(err, row) {
             console.log(row);
         });
     });
