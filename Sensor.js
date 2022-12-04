@@ -30,18 +30,19 @@ app.get("/api/v1/sensor/SobtenerUno/:sensorApiKey", (req, res) => {
     db.serialize(function() {
         db.each("SELECT id, adminId, locationId, sensorName, sensorCategory, sensorMeta, sensorApiKey FROM sensor WHERE sensorApiKey = ? AND id = ?", [req.params.sensorApiKey, req.params.id] ,function(err, row) {
             console.log(row);
+            res.status(201).send(row);
         });
     });
-    res.status(201).send('OK');
+    
 });
 
 app.get("/api/v1/sensor/SobtenerTodos", (req, res) => {
     db.serialize(function() {
         db.each("SELECT id, adminId, locationId, sensorName, sensorCategory, sensorMeta, sensorApiKey FROM sensor WHERE sensorApiKey = ?", [req.params.sensorApiKey] ,function(err, row) {
             console.log(row);
+            res.status(201).send(row);
         });
     });
-    res.status(201).send('OK');
 });
 
 app.delete("/api/v1/sensor/SborrarUno/:sensorApiKey", (req, res) => {

@@ -22,7 +22,7 @@ app.get("/api/v1/admin/AobtenerTodos", (req, res) => {
     db.serialize(function() {
         db.each("SELECT * FROM admin", function(err, row) {
             console.log(row);
-            res.send(row);
+            res.status(201).send(row);
         });
     });
 });

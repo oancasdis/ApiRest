@@ -31,9 +31,10 @@ app.get("/api/v1/sensor_data/DLobtenerUno/:id/:sensorApiKey", (req, res) => {
         function(err, row) {
             console.log(row);
             console.log('Consulta Hora:' + Date.now() );
+            res.status(201).send(row + 'Consulta Hora:' + Date.now());
         });
     });
-    res.status(201).send('OK');
+    
 });
 
 app.get("/api/v1/sensor_data/DLobtenerTodos/:sensorApiKey", (req, res) => {
@@ -43,9 +44,9 @@ app.get("/api/v1/sensor_data/DLobtenerTodos/:sensorApiKey", (req, res) => {
         function(err, row) {
             console.log(row);
             console.log('Consulta Hora:' + Date.now() );
+            res.status(201).send(row + 'Consulta Hora:' + Date.now());
         });
     });
-    res.status(201).send('OK');
 });
 
 app.delete("/api/v1/sensor_data/DLborrarUno/:sensorApiKey", (req, res) => {

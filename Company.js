@@ -26,9 +26,9 @@ app.get("/api/v1/company/CobtenerTodos", (req, res) => {
     db.serialize(function() {
         db.each("SELECT * FROM company", function(err, row) {
             console.log(row);
+            res.status(201).send(row);
         });
     });
-    res.status(201).send('OK');
 });
 
 module.exports = app;

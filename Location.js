@@ -29,9 +29,10 @@ app.get("/api/v1/location/LobtenerUno/:companyApiKey/:id", (req, res) => {
     db.serialize(function() {
         db.each("SELECT location.id, location.companyId, location.adminId, location.locationName, location.locationCountry, location.locationCity, location.locationMeta FROM location INNER JOIN company ON location.companyId = company.id WHERE company.companyApiKey = ? AND location.id = ?", [req.params.companyApiKey, req.params.id] ,function(err, row) {
             console.log(row);
+            res.status(201).send(row);
         });
     });
-    res.status(201).send('OK');
+    
 });
 
 app.get("/api/v1/location/LobtenerTodos/:companyApiKey", (req, res) => {
@@ -39,9 +40,9 @@ app.get("/api/v1/location/LobtenerTodos/:companyApiKey", (req, res) => {
     db.serialize(function() {
         db.each("SELECT location.id, location.companyId, location.adminId, location.locationName, location.locationCountry, location.locationCity, location.locationMeta FROM location INNER JOIN company ON location.companyId = company.id WHERE company.companyApiKey = ?", [req.params.companyApiKey], function(err, row) {
             console.log(row);
+            res.status(201).send(row);
         });
     });
-    res.status(201).send('OK');
 });
 
 app.delete("/api/v1/location/LborrarUno/:id", (req, res) => {
