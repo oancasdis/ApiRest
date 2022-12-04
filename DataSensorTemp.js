@@ -7,7 +7,7 @@ const app = express();
 app.post("/api/v1/sensor_data", (req, res) => {
     db.serialize(function() {
         for(let i = 0;i < Object.keys(req.body.json_data).length;i++){
-            db.each("SELECT id FROM sensor WHERE sensorApiKey = ?", [req.body.api_key] ,function(err, row) {
+            db.all("SELECT id FROM sensor WHERE sensorApiKey = ?", [req.body.api_key] ,function(err, row) {
                 console.log(row);
                 db.run("INSERT INTO sensorDataTemperatura (temperaturaK, temperaturaF, sensorId, createAt)"
                 + "VALUES (?, ?, ?, UNIXEPOCH())",
@@ -25,7 +25,7 @@ app.post("/api/v1/sensor_data", (req, res) => {
 app.get("/api/v1/sensor_data/:sensorApiKey/:id", (req, res) => {
     for(let i = 0;i < Object.keys(req.params.id).length;i++){
         db.serialize(function() {
-            db.each("SELECT sensorDataTemperatura.id, sensorDataTemperatura.temperaturaK, sensorDataTemperatura.temperaturaF, sensorDataTemperatura.sensorId, sensorDataTemperatura.createAt FROM sensorDataTemperatura INNER JOIN sensor ON sensor.id = sensorDataTemperatura.sensorId INNER JOIN location ON location.id = sensor.locationId INNER JOIN company ON company.id = location.companyId WHERE company.companyApiKey = ? AND sensor.sensorApiKey = ? AND sensorDataTemperatura.id = ?", [req.query.companyApiKey, req.params.sensorApiKey, req.params.id[i]] ,function(err, row) {
+            db.all("SELECT sensorDataTemperatura.id, sensorDataTemperatura.temperaturaK, sensorDataTemperatura.temperaturaF, sensorDataTemperatura.sensorId, sensorDataTemperatura.createAt FROM sensorDataTemperatura INNER JOIN sensor ON sensor.id = sensorDataTemperatura.sensorId INNER JOIN location ON location.id = sensor.locationId INNER JOIN company ON company.id = location.companyId WHERE company.companyApiKey = ? AND sensor.sensorApiKey = ? AND sensorDataTemperatura.id = ?", [req.query.companyApiKey, req.params.sensorApiKey, req.params.id[i]] ,function(err, row) {
                 console.log(row);
                 console.log( );
                 res.status(201).send(JSON.stringify(row) + 'Consulta Hora:' + Date.now());
