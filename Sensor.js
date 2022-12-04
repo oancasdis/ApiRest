@@ -25,7 +25,7 @@ app.post("/api/v1/sensor/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:se
     res.status(201).send('OK');
 });
 
-app.get("/api/v1/sensor/SobtenerUno/:sensorApiKey", (req, res) => {
+app.get("/api/v1/sensor/SobtenerUno/:sensorApiKey/:id", (req, res) => {
     // console.log(req.params.location)
     db.serialize(function() {
         db.each("SELECT id, adminId, locationId, sensorName, sensorCategory, sensorMeta, sensorApiKey FROM sensor WHERE sensorApiKey = ? AND id = ?", [req.params.sensorApiKey, req.params.id] ,function(err, row) {
@@ -36,7 +36,7 @@ app.get("/api/v1/sensor/SobtenerUno/:sensorApiKey", (req, res) => {
     
 });
 
-app.get("/api/v1/sensor/SobtenerTodos", (req, res) => {
+app.get("/api/v1/sensor/SobtenerTodos/:sensorApiKey", (req, res) => {
     db.serialize(function() {
         db.each("SELECT id, adminId, locationId, sensorName, sensorCategory, sensorMeta, sensorApiKey FROM sensor WHERE sensorApiKey = ?", [req.params.sensorApiKey] ,function(err, row) {
             console.log(row);
@@ -45,10 +45,10 @@ app.get("/api/v1/sensor/SobtenerTodos", (req, res) => {
     });
 });
 
-app.delete("/api/v1/sensor/SborrarUno/:sensorApiKey", (req, res) => {
+app.delete("/api/v1/sensor/SborrarUno/:companyApiKey/:id", (req, res) => {
     // console.log(req.params.location)
     db.serialize(function() {
-        db.run("DELETE FROM sensor WHERE sensorApiKey = ?", [req.params.sensorApiKey]);
+        db.run("DELETE FROM sensor WHERE ROWID IN (SELECT se.ROWID FROM sensor se INNER JOIN location lo ON (se.locationId = lo.id) INNER JOIN company co ON (co.id = lo.companyId) WHERE co.companyApiKey = ? AND se.id = ?)", [req.params.companyApiKey, req.params.id]);
     });
     res.status(201).send('OK');
 });
