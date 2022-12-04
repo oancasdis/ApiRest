@@ -38,8 +38,8 @@ app.get("/api/v1/location/LobtenerUno/:companyApiKey/:id", (req, res) => {
 app.get("/api/v1/location/LobtenerTodos/:companyApiKey", (req, res) => {
     //console.log(req.params.companyApiKey);
     db.serialize(function() {
-        db.each("SELECT location.id, location.companyId, location.adminId, location.locationName, location.locationCountry, location.locationCity, location.locationMeta FROM location INNER JOIN company ON location.companyId = company.id WHERE company.companyApiKey = ?", [req.params.companyApiKey], function(err, row) {
-            console.log(row);
+        db.all("SELECT location.id, location.companyId, location.adminId, location.locationName, location.locationCountry, location.locationCity, location.locationMeta FROM location INNER JOIN company ON location.companyId = company.id WHERE company.companyApiKey = ?", [req.params.companyApiKey], function(err, row) {
+            console.log(JSON.stringify(row));
             res.status(201).send(row);
         });
     });

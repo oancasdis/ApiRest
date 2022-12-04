@@ -18,7 +18,7 @@ app.post("/api/v1/company/Cagregar/:id/:companyName", (req, res) => {
             ]);
         });
     });
-    res.status(201).send('OK');
+    res.status(201).send('Company Api Key: ' + companyApiKey);
 });
 
 app.get("/api/v1/company/CobtenerTodos", (req, res) => {

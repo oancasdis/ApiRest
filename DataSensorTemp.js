@@ -37,7 +37,7 @@ app.get("/api/v1/sensor_data/:companyApiKey/:sensorApiKey/:id", (req, res) => {
 app.get("/api/v1/sensor_allData/:companyApiKey/:sensorApiKey", (req, res) => {
     // console.log(req.params.id)
     db.serialize(function() {
-        db.each("SELECT sensorDataTemperatura.id, sensorDataTemperatura.temperaturaK, sensorDataTemperatura.temperaturaF, sensorDataTemperatura.sensorId, sensorDataTemperatura.createAt FROM sensorDataTemperatura INNER JOIN sensor ON sensor.id = sensorDataTemperatura.sensorId INNER JOIN location ON location.id = sensor.locationId INNER JOIN company ON company.id = location.companyId WHERE company.companyApiKey = ? AND sensor.sensorApiKey = ?", [req.params.companyApiKey, req.params.sensorApiKey], function(err, row) {
+        db.all("SELECT sensorDataTemperatura.id, sensorDataTemperatura.temperaturaK, sensorDataTemperatura.temperaturaF, sensorDataTemperatura.sensorId, sensorDataTemperatura.createAt FROM sensorDataTemperatura INNER JOIN sensor ON sensor.id = sensorDataTemperatura.sensorId INNER JOIN location ON location.id = sensor.locationId INNER JOIN company ON company.id = location.companyId WHERE company.companyApiKey = ? AND sensor.sensorApiKey = ?", [req.params.companyApiKey, req.params.sensorApiKey], function(err, row) {
             console.log(row);
             console.log('Consulta Hora:' + Date.now() );
             res.status(201).send(row + 'Consulta Hora:' + Date.now());

@@ -39,7 +39,7 @@ app.get("/api/v1/sensor_data/DLobtenerUno/:id/:sensorApiKey", (req, res) => {
 
 app.get("/api/v1/sensor_data/DLobtenerTodos/:sensorApiKey", (req, res) => {
     db.serialize(function() {
-        db.each("SELECT sensorDataLuz.id, sensorDataLuz.intensidadRojo, sensorDataLuz.intensidadVerde, sensorDataLuz.intensidadAzul, sensorDataLuz.sensorId, sensorDataLuz.createAt FROM sensorDataLuz INNER JOIN sensor ON sensor.id = sensorDataLuz.sensorId INNER JOIN location ON location.id = sensor.locationId INNER JOIN company ON company.id = location.companyId WHERE sensor.sensorApiKey = ? AND company.companyApiKey = ?",
+        db.all("SELECT sensorDataLuz.id, sensorDataLuz.intensidadRojo, sensorDataLuz.intensidadVerde, sensorDataLuz.intensidadAzul, sensorDataLuz.sensorId, sensorDataLuz.createAt FROM sensorDataLuz INNER JOIN sensor ON sensor.id = sensorDataLuz.sensorId INNER JOIN location ON location.id = sensor.locationId INNER JOIN company ON company.id = location.companyId WHERE sensor.sensorApiKey = ? AND company.companyApiKey = ?",
         [req.params.sensorApiKey, req.query.companyApiKey],
         function(err, row) {
             console.log(row);

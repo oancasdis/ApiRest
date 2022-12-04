@@ -22,7 +22,7 @@ app.post("/api/v1/sensor/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:se
             ]);
         });
     });
-    res.status(201).send('OK');
+    res.status(201).send('Sensor Api Key: ' + sensorApiKey);
 });
 
 app.get("/api/v1/sensor/SobtenerUno/:sensorApiKey/:id", (req, res) => {
@@ -38,7 +38,7 @@ app.get("/api/v1/sensor/SobtenerUno/:sensorApiKey/:id", (req, res) => {
 
 app.get("/api/v1/sensor/SobtenerTodos/:sensorApiKey", (req, res) => {
     db.serialize(function() {
-        db.each("SELECT id, adminId, locationId, sensorName, sensorCategory, sensorMeta, sensorApiKey FROM sensor WHERE sensorApiKey = ?", [req.params.sensorApiKey] ,function(err, row) {
+        db.all("SELECT id, adminId, locationId, sensorName, sensorCategory, sensorMeta, sensorApiKey FROM sensor WHERE sensorApiKey = ?", [req.params.sensorApiKey] ,function(err, row) {
             console.log(row);
             res.status(201).send(row);
         });
