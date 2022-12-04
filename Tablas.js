@@ -57,7 +57,7 @@ app.post("/crearTablas", (req, res) => {
         + "createAt INTEGER,"
         + "foreign key(sensorId) references sensor(id))");
     });
-    res.end('crearTablas')
+    res.status(201).send('OK');
 });
 
 module.exports = app;
