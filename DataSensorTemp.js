@@ -62,7 +62,7 @@ app.put("/api/v1/sensor_data/DTeditaUno/:temperaturaK/:temperaturaF/:sensorApiKe
             sensorEdit.temperaturaK,
             sensorEdit.temperaturaF,
             sensorEdit.sensorApiKey,
-            sensorEdit.sensorId
+            sensorEdit.id
         ]);
     });
     res.status(201).send('OK');
