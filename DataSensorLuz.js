@@ -50,7 +50,7 @@ app.get("/api/v1/sensor_data/DLobtenerTodos/:sensorApiKey", (req, res) => {
     });
 });
 
-app.delete("/api/v1/sensor_data/DLborrarUno/:sensorApiKey", (req, res) => {
+app.delete("/api/v1/sensor_data/DLborrarUno/:sensorApiKey/:id", (req, res) => {
     // console.log(req.params.id)
     db.serialize(function() {
         db.run("DELETE FROM sensorDataLuz WHERE ROWID IN (SELECT a.ROWID FROM sensorDataLuz a INNER JOIN sensor b ON (a.sensorId = b.id) WHERE b.sensorApiKey = ? AND a.sensorId = ?)", [req.params.sensorApiKey, req.params.id]);
@@ -62,7 +62,7 @@ app.put("/api/v1/sensor_data/DLeditaUno/:intensidadRojo/:intensidadVerde/:intens
     // console.log(req.params.id)
     db.serialize(function() {
         const sensorEdit = req.params;
-        db.run("UPDATE sensorDataLuz SET intensidadRojo = ?, intensidadVerde = ?, intensidadAzul = ?, WHERE EXISTS (SELECT * FROM sensor WHERE sensorApiKey = ? AND sensorDataLuz.id = ? )", 
+        db.run("UPDATE sensorDataLuz SET intensidadRojo = ?, intensidadVerde = ?, intensidadAzul = ? WHERE EXISTS (SELECT * FROM sensor WHERE sensorApiKey = ? AND sensorDataLuz.id = ? )", 
         [
             sensorEdit.intensidadRojo,
             sensorEdit.intensidadVerde,

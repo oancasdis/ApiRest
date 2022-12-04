@@ -10,8 +10,7 @@ app.post("/api/v1/sensor/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:se
         const sensor = req.params;
         db.each("SELECT location.adminId, location.id FROM location INNER JOIN company ON location.companyId = company.id WHERE company.companyApiKey = ?", [sensor.companyApiKey] ,function(err, row) {
             console.log(row);
-            db.run("INSERT INTO sensor (adminId, locationId, sensorName, sensorCategory, sensorMeta, sensorApiKey)"
-            + "VALUES (?, ?, ?, ?, ?, ?)",
+            db.run("INSERT INTO sensor (adminId, locationId, sensorName, sensorCategory, sensorMeta, sensorApiKey) VALUES (?, ?, ?, ?, ?, ?)",
             [
                 row.adminId,
                 row.id, 
@@ -28,7 +27,7 @@ app.post("/api/v1/sensor/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:se
 app.get("/api/v1/sensor/SobtenerUno/:sensorApiKey/:id", (req, res) => {
     // console.log(req.params.location)
     db.serialize(function() {
-        db.each("SELECT id, adminId, locationId, sensorName, sensorCategory, sensorMeta, sensorApiKey FROM sensor WHERE sensorApiKey = ? AND id = ?", [req.params.sensorApiKey, req.params.id] ,function(err, row) {
+        db.all("SELECT id, adminId, locationId, sensorName, sensorCategory, sensorMeta, sensorApiKey FROM sensor WHERE sensorApiKey = ? AND id = ?", [req.params.sensorApiKey, req.params.id] ,function(err, row) {
             console.log(row);
             res.status(201).send(row);
         });
