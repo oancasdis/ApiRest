@@ -29,9 +29,9 @@ app.delete('/api/v1/location/LborrarUno/:companyApiKey/:id', Location)
 app.put('/api/v1/location/LeditaUno/:locationName/:locationCountry/:locationCity/:locationMeta/:companyApiKey/:id', Location)
 
 app.post('/api/v1/sensor/Sagregar/:companyApiKey/:sensorName/:sensorCategory/:sensorMeta', Sensor)
-app.get('/api/v1/sensor/SobtenerUno/:companyApiKey/:id', Sensor)
+app.get('/api/v1/sensor/SobtenerUno/:sensorApiKey/:id', Sensor)
 app.get('/api/v1/sensor/SobtenerTodos/:sensorApiKey', Sensor)
-app.delete('/api/v1/sensor/SborrarUno/:companyApiKey/:id', Sensor)
+app.delete('/api/v1/sensor/SborrarUno/:sensorApiKey/:id', Sensor)
 app.put('/api/v1/sensor/SeditaUno/:sensorName/:sensorCategory/:sensorMeta/:sensorApiKey/:id', Sensor)
 
 app.post('/api/v1/sensor_data/DLagregar', DataLuz)

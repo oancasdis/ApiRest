@@ -45,10 +45,10 @@ app.get("/api/v1/sensor/SobtenerTodos/:sensorApiKey", (req, res) => {
     });
 });
 
-app.delete("/api/v1/sensor/SborrarUno/:companyApiKey/:id", (req, res) => {
+app.delete("/api/v1/sensor/SborrarUno/:sensorApiKey/:id", (req, res) => {
     // console.log(req.params.location)
     db.serialize(function() {
-        db.run("DELETE FROM sensor WHERE ROWID IN (SELECT se.ROWID FROM sensor se INNER JOIN location lo ON (se.locationId = lo.id) INNER JOIN company co ON (co.id = lo.companyId) WHERE co.companyApiKey = ? AND se.id = ?)", [req.params.companyApiKey, req.params.id]);
+        db.run("DELETE FROM sensor WHERE sensorApiKey = ? AND id = ?", [req.params.sensorApiKey, req.params.id]);
     });
     res.status(201).send('OK');
 });
