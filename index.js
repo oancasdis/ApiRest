@@ -41,8 +41,8 @@ app.delete('/api/v1/sensor_data/DLborrarUno/:sensorApiKey/:id', DataLuz)
 app.put('/api/v1/sensor_data/DLeditaUno/:intensidadRojo/:intensidadVerde/:intensidadAzul/:sensorApiKey/:id', DataLuz)
 
 app.post('/api/v1/sensor_data', DataTemp)
-app.get('/api/v1/sensor_data/:sensorApiKey/:id', DataTemp)
-app.get('/api/v1/sensor_allData/:companyApiKey/:sensorApiKey', DataTemp)
+app.get('/api/v1/sensor_data/:id/:sensorApiKey', DataTemp)
+app.get('/api/v1/sensor_allData/:sensorApiKey', DataTemp)
 app.delete('/api/v1/sensor_data/DTborrarUno/:sensorApiKey/:id', DataTemp)
 app.put('/api/v1/sensor_data/DTeditaUno/:temperaturaK/:temperaturaF/:sensorApiKey/:id', DataTemp)
 
