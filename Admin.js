@@ -17,6 +17,8 @@ app.post("/api/v1/admin/Aagregar/:username/:password", (req, res) => {
     res.status(201).send('OK');
 });
 
+
+
 app.get("/api/v1/admin/AobtenerTodos", (req, res) => {
     // console.log(req.params.company)
     db.serialize(function() {
